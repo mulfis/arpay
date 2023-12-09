@@ -1,33 +1,16 @@
-# Python
-*.pyc
-*~
-__pycache__
-
-# Env
 .env
 myvenv/
 venv/
 artesis/
-
-# Database
 db.sqlite3
+.vscode
 
-# Static folder at project root
-/static/
+mysite/__pycache__/*
+mysite/migrations/__pycache__/*
+artesis/__pycache__/*.pyc
+website/__pycache__/*
+website/migrations/__pycache__/*
+media/
 
-# macOS
-._*
-.DS_Store
-.fseventsd
-.Spotlight-V100
-
-# Windows
-Thumbs.db*
-ehthumbs*.db
-[Dd]esktop.ini
-$RECYCLE.BIN/
-
-# Visual Studio
-.vscode/
-.history/
-*.code-workspace
+node_modules/
+package-lock.json
