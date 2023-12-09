@@ -3,7 +3,7 @@ ____ Arpay Update Log ____
 
 10/10/2023    - Initial file created
 
-../11/2023    - v0.1 creating interface and frontend
+01/11/2023    - v0.1 creating interface and frontend
 
 09/12/2023    - v0.2 
               - fix some interface bug
