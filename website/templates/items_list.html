@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List Rumah Perumahan</title>
+
+    <!-- CSS Bundle -->
+    <link rel="stylesheet" href="../static/css/output.css" />
+    <link rel="stylesheet" href="../static/css/custom.css" />
+
+  </head>
+  <body class="h-screen">
+    <!-- Navbar Start -->
+    <nav
+      class="fixed flex justify-between items-center py-4 lg:px-6 h-14 w-screen backdrop-blur-sm bg-sky-700/40 z-20"
+    >
+      <a href="{% url 'home' %}" class="text-2xl font-semibold text-white pl-6"
+        >
+        <p>Artesis <span class="underline decoration-3 decoration-sky-200 decoration-wavy">Payment</span></p>
+      </a>
+      <div class="absolute lg:hidden pr-6 right-0">
+        <button class="relative group z-10" id="hamburger" >
+          <div
+            class="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] bg-slate-700/40 shadow-md"
+          >
+            <div
+              class="flex flex-col justify-between w-[20px] h-[20px] origin-center overflow-hidden"
+            >
+              <div class="bg-white h-[2px] w-7"></div>
+              <div class="bg-white h-[2px] w-7"></div>
+              <div class="bg-white h-[2px] w-7"></div>
+
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+      <div class="absolute right-[-400px] lg:right-[200px] top-0 lg:flex move-right" id="navItems">
+        <div
+          class="absolute flex flex-col p-4 pt-20 lg:pt-1 lg:flex-row h-screen w-96 bg-slate-100 right-0 top-0 lg:bg-transparent lg:h-auto lg:w-auto"
+        >
+          <a href="{% url 'items-list' %}">
+            <button
+              class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+            >
+              List Rumah
+            </button>
+          </a>
+          <a href="{% url 'login' %}">
+            <button
+              class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+            >
+              Rumahku
+            </button>
+          </a>
+          <a href="{% url 'about' %}">
+            <button
+              class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+            >
+              About & FAQ
+            </button>
+          </a>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar End -->
+    <main class="md:flex h-auto md:h-screen w-screen bg-slate-100">
+      <!-- Sidebar Start -->
+      <div class="fixed md:relative z-10 initial-navbar open-navbar" id="sideBar">
+      <div class="relative flex flex-col pt-6 lg:pt-10 h-screen w-screen md:w-[250px] bg-slate-300">
+        <div class="m-auto text-center items-center justify-center">
+          <div class="p-1">
+            <p class="font-semibold">Search</p>
+            <div
+              class="w-72 md:w-52 h-8 flex rounded-lg border-2 border-transparent shadow-md m-auto bg-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-auto h-auto p-1 bg-slate-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                />
+              </svg>
+              <input
+                class="rounded-r-lg border-transparent border-2 w-72 md:w-52"
+                type="text"
+                name="search"
+                id="search"
+              />
+            </div>
+          </div>
+          <div class="p-1 flex flex-col">
+            <p class="font-semibold">Sort by</p>
+            <div class="mx-auto pb-3">
+              <p
+                class="px-4 w-72 md:w-52 h-8 rounded-t-xl bg-gray-200 border-2 border-gray-100 shadow-md"
+              >
+                Status Bayar
+              </p>
+              <label for="bayar-semua">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Semua</p>
+                  <input
+                    type="radio"
+                    name="status-bayar"
+                    id="bayar-semua"
+                    value="bayar-semua"
+                    checked
+                  />
+                </div>
+              </label>
+              <label for="bayar-lunas">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Lunas</p>
+                  <input
+                    type="radio"
+                    name="status-bayar"
+                    id="bayar-lunas"
+                    value="bayar-lunas"
+                  />
+                </div>
+              </label>
+              <label for="bayar-belum-lunas">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Belum Lunas</p>
+                  <input
+                    type="radio"
+                    name="status-bayar"
+                    id="bayar-belum-lunas"
+                    value="bayar-belum-lunas"
+                  />
+                </div>
+              </label>
+              <label for="bayar-nunggak">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 rounded-b-xl bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Ditangguhkan</p>
+                  <input
+                    type="radio"
+                    name="status-bayar"
+                    id="bayar-nunggak"
+                    value="bayar-nunggak"
+                  />
+                </div>
+              </label>
+            </div>
+            <div class="mx-auto pb-3">
+              <p
+                class="px-4 w-72 md:w-52 h-8 rounded-t-xl bg-gray-200 border-2 border-gray-100 shadow-md"
+              >
+                Kondisi Mesin
+              </p>
+              <label for="mesin-semua">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Semua</p>
+                  <input
+                    type="radio"
+                    name="status-mesin"
+                    id="mesin-semua"
+                    value="mesin-semua"
+                    checked
+                  />
+                </div>
+              </label>
+              <label for="mesin-bagus">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Mesin Bagus</p>
+                  <input
+                    type="radio"
+                    name="status-mesin"
+                    id="mesin-bagus"
+                    value="mesin-bagus"
+                  />
+                </div>
+              </label>
+              <label for="mesin-rusak">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 rounded-b-xl bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Mesin Rusak</p>
+                  <input
+                    type="radio"
+                    name="status-mesin"
+                    id="mesin-rusak"
+                    value="mesin-rusak"
+                  />
+                </div>
+              </label>
+            </div>
+            <div class="mx-auto">
+              <p
+                class="px-4 w-72 md:w-52 h-8 rounded-t-xl bg-gray-200 border-2 border-gray-100 shadow-md"
+              >
+                Status Kependudukan
+              </p>
+              <label for="rumah-semua">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Semua</p>
+                  <input
+                    type="radio"
+                    name="status-rumah"
+                    id="rumah-semua"
+                    value="rumah-semua"
+                    checked
+                  />
+                </div>
+              </label>
+              <label for="rumah-diisi">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Rumah Diisi</p>
+                  <input
+                    type="radio"
+                    name="status-rumah"
+                    id="rumah-diisi"
+                    value="rumah-diisi"
+                  />
+                </div>
+              </label>
+              <label for="rumah-kosong">
+                <div
+                  class="flex px-4 w-72 md:w-52 h-8 rounded-b-xl bg-white border-2 border-gray-100 shadow-md justify-between hover:cursor-pointer"
+                >
+                  <p>Rumah Kosong</p>
+                  <input
+                    type="radio"
+                    name="status-rumah"
+                    id="rumah-kosong"
+                    value="rumah-kosong"
+                  />
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="md:hidden pb-3">
+          <div
+          class="flex items-center justify-center "
+          >
+          <button class=" w-[40px] h-[40px]" onclick="closeSideBar()">
+            <div class="relative group">
+              <div
+                class="flex flex-row overflow-visible"
+              >
+                <div class="absolute bg-slate-900 h-[3px] w-5 rotator-initial-1 right-1" id="chev-1"></div>
+                <div class="absolute bg-slate-900 h-[3px] w-5 rotator-initial-2 left-1" id="chev-2"></div>
+              </div>
+            </div>
+            </button>
+          </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- Sidebar End -->
+      <!-- Content Start -->
+      <div class="w-full md:w-4/5 lg:h-[90%] h-auto overflow-y-scroll md:overflow-hidden">
+        <div class="container m-auto px-10 md:pt-16 pt-32 h-full">
+          <p class="text-3xl py-1 font-semibold text-sky-800">List Rumah</p>
+          <div class="hidden lg:flex">
+            <span class="w-1/5 text-lg"> No Rumah </span>
+            <span class="w-1/5 text-lg"> Foto </span>
+            <span class="w-1/5 text-lg"> Status Bayar </span>
+            <span class="w-1/5 text-lg"> Kondisi Mesin </span>
+            <span class="w-1/5 text-lg"> Kependudukan </span>
+          </div>
+          <div class="w-full h-0.5 bg-slate-800"></div>
+          <div class="w-full h-screen lg:h-full md:overflow-y-scroll bg-slate-400/5">
+          
+          <div class="py-2">
+            <!-- Items Start -->
+            {% for item in lists %}
+            <div
+              class="bg-sky-900/5 backdrop-blur-sm w-full rounded-xl border-2 border-sky-400/80 shadow-md my-4"
+            >
+              <div class="lg:flex text-center lg:text-left">
+                <span
+                  class="p-2 lg:w-1/6 lg:m-auto lg:pl-8 text-3xl font-medium text-slate-500"
+                >
+                  {{ item.id }}
+                </span>
+                <span class="p-2 lg:w-1/6 text-xl flex">
+                  <img
+                    class="m-auto w-full lg:m-0 md:w-80 lg:w-24 rounded-md "
+                    src="../cloud/basic.jpg"
+                    alt=""
+                    srcset=""
+                  />
+                </span>
+                <p class="p-2 lg:w-1/6 lg:m-auto text-xl">
+                  <span class="lg:hidden">Pembayaran: </span>
+                  <span class="font-medium text-green-500"> {{ item.status_bayar }} </span>
+                </p>
+                <p class="p-2 lg:w-1/6 lg:m-auto text-xl">
+                  <span class="lg:hidden"> Mesin: </span>
+                  <span class="font-medium text-red-500"> {{ item.status_mesin }} </span>
+                </p>
+                <p class="p-2 lg:w-1/6 lg:m-auto text-xl">
+                  <span class="lg:hidden"> Status: </span>
+                  <span class="font-medium text-green-500"> {{ item.status_kependudukan }} </span>
+                </p>
+                <!-- <div class="p-2 lg:w-1/6 lg:m-auto">
+                  <a href="{% url 'login' %}">
+                    <button
+                      class="w-32 h-10 bg-slate-100 rounded-lg hover:bg-white hover:border-2 border-sky-500 shadow-sm transition-all"
+                    >
+                      Selengkapnya
+                    </button>
+                  </a>
+                </div> -->
+              </div>
+            </div>
+            {% endfor %}
+            <!-- items End -->
+          </div>
+          
+          </div>
+        </div>
+      </div>
+      <!-- Content End -->
+    </main>
+
+    <script src="../static/js/script.js"></script>
+  </body>
+</html>

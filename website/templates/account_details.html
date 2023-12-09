@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS Bundle -->
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+
+    <title>User Details</title>
+  </head>
+  <body>
+    <a href="#" class="z-20 to-top bg-sky-400/90" id="toTop">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+      </svg>              
+    </a>
+    <!-- Navbar Start -->
+    <nav
+      class="fixed flex justify-between items-center py-4 lg:px-6 h-14 w-screen backdrop-blur-sm bg-sky-700/20 z-10"
+    >
+      <a href="{% url 'home' %}" class="text-2xl font-semibold text-white pl-6"
+        >
+        <p>Artesis <span class="underline decoration-3 decoration-sky-300 decoration-wavy">Payment</span></p>
+      </a>
+      <a href="{% url 'logout' %}" class="text-2xl font-semibold text-white pl-6 text-center">
+        <p class="">logout</p>
+      </a>
+      <div class=""></div>
+      <div class="absolute lg:hidden pr-6 right-0">
+        <button class="relative group z-10" id="hamburger" >
+          <div
+            class="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] bg-slate-700/70 shadow-md"
+          >
+            <div
+              class="flex flex-col justify-between w-[20px] h-[20px] origin-center overflow-hidden"
+            >
+              <div class="bg-white h-[2px] w-7"></div>
+              <div class="bg-white h-[2px] w-7"></div>
+              <div class="bg-white h-[2px] w-7"></div>
+
+              </div>
+            </div>
+          </div>
+        </button>
+
+      </div>
+      <div class="absolute right-[-400px] lg:right-[200px] top-0 lg:flex move-right" id="navItems">
+        <div
+          class="absolute flex flex-col p-4 pt-20 lg:pt-1 lg:flex-row h-screen w-96 bg-slate-100 right-0 top-0 lg:bg-transparent lg:h-auto lg:w-auto"
+        >
+          <a href="{% url 'items-list' %}">
+            <button
+              class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+            >
+              List Rumah
+            </button>
+          </a>
+          <a href="{% url 'login' %}">
+            <button
+              class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+            >
+              Rumahku
+            </button>
+          </a>
+          <a href="{% url 'about' %}">
+            <button
+              class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+            >
+              About & FAQ
+            </button>
+          </a>
+          
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar End -->
+    <main>
+      <!-- Content Start -->
+      <div class="flex w-full h-screen">
+        <div>
+          <img class="fixed w-full h-full bg-no-repeat bg-cover bg-center -z-20 contrast-50 saturate-50" src="{% static 'image/basic.jpg' %}" alt="background image" srcset="">
+        </div>
+        <div class="flex flex-col m-auto fixed w-screen pt-52 lg:pt-40 text-center -z-10">
+          <p class="text-7xl md:text-9xl font-medium text-white">{{ user_account.id }}</p>
+
+          <!-- Data Manuals -->
+          <p class="text-xl md:text-3xl font-medium text-sky-100">per <span class="font-bold">Desember</span> - <span class="font-bold">2023</span></p>
+          
+          <div class="flex m-auto w-full md:w-2/3 pt-20 px-2 md:px-0">
+            <div class="m-auto px-1 md:px-3 py-2 w-auto md:w-40 rounded-xl bg-sky-800/30 backdrop-blur-sm backdrop-saturate-50">
+              <p class="text-sm md:text-xl font-medium text-white">Status Bayar</p>
+              <p class="text-xl md:text=3xl font-bold text-green-400">{{ user_account.status_bayar }}</p>
+            </div>
+            <div class="m-auto px-1 md:px-3 py-2 w-auto md:w-40 rounded-xl bg-sky-800/30 backdrop-blur-sm backdrop-saturate-50">
+              <p class="text-sm md:text-xl font-medium text-white">Kondisi Mesin</p>
+              <p class="text-xl md:text=3xl font-bold text-red-400">{{ user_account.status_mesin }}</p>
+            </div>
+            <div class="m-auto px-1 md:px-3 py-2 w-auto md:w-40 rounded-xl bg-sky-800/30 backdrop-blur-sm backdrop-saturate-50">
+              <p class="text-sm md:text-xl font-medium text-white">Kependudukan</p>
+              <p class="text-xl md:text=3xl font-bold text-green-400">{{ user_account.status_kependudukan }}</p>
+            </div>
+          </div>
+          <div class="m-auto pt-24 lg:pt-16">
+            <div class="relative w-9 h-14 border-4 border-white rounded-full m-2">
+              <div class="absolute w-2 h-2 bg-white left-[50%] top-[15%] rounded-full scroll-down-animation wheel-down">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex w-full h-screen bg-sky-900/30 backdrop-blur-xl">
+        <div class="text-white">
+          <div class="absolute payment-slide px-3 md:px-14 lg:px-32" id="payment-slider">
+            <div class="p-4 pl-2">
+              <p class="text-xl md:text-2xl">Tagihan Anda Bulan ini:</p>
+
+              <!-- Data Manuals -->
+              <p class="text-md md:text-lg">Tenggat Waktu: <span>31 Desember 2023</span></p>
+            
+            </div>
+            <div class="flex m-auto p-2 md:p-4 border-4 border-sky-500 rounded-lg text-sm md:text-lg">
+              <table class="flex m-auto">
+                <tr>
+                  <td class="md:pr-8"><p>Biaya Pemakaian</p></td>
+                  <td class="md:pr-4"><p>=</p></td>
+                  <td class="md:pr-8"><span>{{ user_account.pemakaian_kubik_bulanan }}</span></td>
+                  <td class="md:pr-8"><p>x</p></td>
+                  <td class="md:pr-8"><p>Rp. 5.500,-</p></td>
+                  <td class="md:pr-4"><p>=</p></td>
+                  <td class="md:pr-8"><span>Rp. {{ user_account.biaya_pemakaian_bulanan }}</span></td>
+                </tr>
+                <tr>
+                  <td><p>Biaya Beban</p></td>
+                  <td><p>=</p></td>
+                  <td colspan="3"><p>Rp. 20.000,-</p></td>
+                  <td><p>=</p></td>
+                  <td><span>Rp. 20.000,-</span></td>
+                </tr>
+                <tr class="border-t-2 border-white">
+                  <td colspan="5"><p>Total</p></td>
+                  <td><p>=</p></td>
+                  <td><span>Rp. {{ user_account.biaya_total_bulanan }}</span></td>
+                </tr>
+              </table>
+            </div>
+            <div class="flex md:my-4 w-full justify-evenly">
+              <button
+                class="p-2 bg-sky-500 rounded-lg border-slate-700 text-white shadow-md hover:bg-sky-400 transition-colors"
+                id="payment-now"
+                onclick="barcodePayment()"
+              >
+                Bayar Sekarang
+              </button>
+              <button
+                class="p-2 bg-sky-500 rounded-lg border-slate-700 text-white shadow-md hover:bg-sky-400 transition-all"
+              >
+                Pelajari lebih lanjut
+              </button>
+            </div>
+            <div>
+              <p class="text-red-400 font-medium">
+                *Saat ini pembayaran online belum tersedia
+              </p>
+            </div>
+          </div>
+          <div class="barcode-animation -z-10 px-3 md:px-14 lg:px-32" id="barcode-payment">
+            <div class="flex flex-col md:flex-row m-auto py-8 md:w-[500px]">
+              <div class="flex m-auto w-44 h-44 p-2 bg-transparent rounded-xl border-slate-300 border-2">
+                <div class="m-auto h-36 w-36 bg-emerald-100">
+                
+                  <!-- Barcode here -->
+                  <span></span>
+              
+                </div>
+              </div>
+            <div class="flex m-auto p-2"><p class="font-medium text-xl md:text-2xl">scan barcode berikut</p></div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-auto pb-40 bg-slate-100">
+        <div class="pl-4 md:pl-16 pt-28">
+          <p class="text-xl md:text-3xl">Riwayat Pembayaran Bulan Sebelumnya</p>
+        </div>
+        <div class="flex pt-4 lg:justify-center overflow-scroll mx-4 bg-white">
+          <table class="table border-2 border-slate-600">
+            <tr class="text-center border-2 border-slate-600">
+              <td class="px-8 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Bulan</p></td>
+              <td class="px-7 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Tanggal Pembayaran</p></td>
+              <td class="px-7 border-2 border-slate-600 bg-slate-200" colspan="3">
+                <p>Kubik Air yang digunakan (/m<sup>3</sup>)</p>
+              </td>
+              <td class="px-7 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Total Tagihan</p></td>
+              <td class="px-7 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Uang yang dibayarkan</p></td>
+              <td class="px-7 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Status Pembayaran</p></td>
+              <td class=" border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Sisa Pembayaran</p></td>
+            </tr>
+            <tr class="border-2 border-slate-600 pb-2 text-center">
+              <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Awal</p></td>
+              <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Akhir</p></td>
+              <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Total</p></td>
+            </tr>
+            <!-- Database Start -->
+            <tr class="text-center border-2 border-slate-600">
+              <td class="border-2 border-slate-600"><span>{{ payment_history.bulan }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ payment_history.tanggal_pembayaran }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ payment_history.kubikasi_awal }}</s></td>
+              <td class="border-2 border-slate-600"><span>{{ payment_history.kubikasi_akhir }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ payment_history.kubikasi_total }}</span></td>
+              <td class="border-2 border-slate-600"><p>Rp. <span>{{ payment_history.tagihan_total }}</span></p></td>
+              <td class="border-2 border-slate-600"><p>Rp. <span>{{ payment_history.tagihan_dibayar }}</span></p></td>
+              <td class="border-2 border-slate-600"><span>{{ payment_history.status_pembayaran }}</span></td>
+              <td>
+                <p>Rp. <span>{{ payment_history.sisa_pembayaran }}</span></p>
+              </td>
+            </tr>
+            <!-- Database End -->
+          </table>
+        </div>
+      </div>
+      <!-- Content End -->
+
+    </main>
+
+    <!-- JS Bundle -->
+    <script src="{% static 'js/script.js' %}"></script>
+    
+  </body>
+</html>

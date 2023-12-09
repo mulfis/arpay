@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Navbar Start -->
+  <nav
+    class="fixed flex justify-between items-center py-4 lg:px-6 h-14 w-screen backdrop-blur-sm bg-sky-700/20 z-10"
+  >
+    <a href="{% url 'home' %}" class="text-2xl font-semibold text-white pl-6"
+      >
+      <p>Artesis <span class="underline decoration-3 decoration-sky-300 decoration-wavy">Payment</span></p>
+    </a>
+    <div class="absolute lg:hidden pr-6 right-0">
+      <button class="relative group z-10" id="hamburger" >
+        <div
+          class="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] bg-slate-700/70 shadow-md"
+        >
+          <div
+            class="flex flex-col justify-between w-[20px] h-[20px] origin-center overflow-hidden"
+          >
+            <div class="bg-white h-[2px] w-7"></div>
+            <div class="bg-white h-[2px] w-7"></div>
+            <div class="bg-white h-[2px] w-7"></div>
+
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
+    <div class="absolute right-[-400px] lg:right-[200px] top-0 lg:flex move-right" id="navItems">
+      <div
+        class="absolute flex flex-col p-4 pt-20 lg:pt-1 lg:flex-row h-screen w-96 bg-slate-100 right-0 top-0 lg:bg-transparent lg:h-auto lg:w-auto"
+      >
+        <a href="{% url 'items-list' %}">
+          <button
+            class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+          >
+            List Rumah
+          </button>
+        </a>
+        <a href="{% url 'login' %}">
+          <button
+            class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+          >
+            Rumahku
+          </button>
+        </a>
+        <a href="{% url 'about' %}">
+          <button
+            class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+          >
+            About & FAQ
+          </button>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar End -->
+  <main class="content-center h-screen w-screen">
+    <div
+      style="background-image: url('/static/cloud/basic.jpg');"
+      class="absolute w-full h-full bg-no-repeat bg-cover bg-center -z-10 contrast-50 saturate-50"
+    ></div>
+    <div class="h-1/3"></div>
+    <div class="text-center m-auto items-center justify-center h-1/3">
+      <div class="m-auto pt-4">
+        <h1 class="text-3xl md:text-6xl text-white font-semibold">
+          Portal Transaksi Air Artesis
+        </h1>
+        <h2 class="text-xl md:text-3xl text-white">
+          Perumahan <span class="font-medium text-white underline decoration-sky-200 decoration-wavy">Jatihurip Permasih</span>
+        </h2>
+      </div>
+      <div class="md:flex items-center m-auto justify-evenly">
+        <div></div>
+        <div class="pt-10">
+          <a href="{% url 'items-list' %}">
+            <button
+              class="font-semibold w-48 h-12 rounded-xl shadow-md hover:border-2 border-white bg-slate-700 hover:bg-slate-500 text-white transition-all"
+            >
+              List Rumah
+            </button>
+          </a>
+        </div>
+        <div class="pt-4 md:pt-10">
+          <a href="{% url 'about' %}">
+            <button
+              class="font-semibold w-48 h-12 rounded-xl shadow-md hover:border-2 border-white bg-slate-700 hover:bg-slate-500 text-white transition-all"
+            >
+              About & FAQ
+            </button>
+          </a>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <div class="h-1/3"></div>
+
+  </main>
+
+{% endblock %}
