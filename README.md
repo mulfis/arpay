@@ -1,17 +1,19 @@
-____ Arpay Update Log ____
+<h1>____ Arpay Update Log ____</h1>
 
 This work is made for my campus task
 
+Test web: currently not avail
+<hr>
+<br>
 
-
-10/10/2023    - v0.0
+<b>10/10/2023    - v0.0</b>
 - initial file created
 
-01/11/2023    - v0.1 
+<b>01/11/2023    - v0.1</b> 
 - creating interface and frontend
 - using tailwindcss as interface framework
 
-09/12/2023    - v0.2
+<b>09/12/2023    - v0.2</b>
 - fix some interface bug
 - add animations
 - add trial data for backend debug
