@@ -1,6 +1,6 @@
 <h1>____ Arpay Update Log ____</h1>
 
-This work is made for my campus task
+This work is made for my campus work
 
 Test web: currently not avail
 <hr>
@@ -21,3 +21,10 @@ Test web: currently not avail
 - implemented Django backend
 - implemented MySql database
 - add some backend (login, logout, lists, account, etc.)
+
+<b>10/12/2023    - v0.3</b>
+- fixing some frontend
+- implemented django more complex
+- updateng database model
+- about page now connected with django
+- sidebar and navbar become separated files
