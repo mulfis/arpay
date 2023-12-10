@@ -1,0 +1,68 @@
+{% load static %}
+
+{% block navbar %}
+  <nav
+    class="fixed flex justify-between items-center py-4 lg:px-6 h-14 w-screen backdrop-blur-sm bg-sky-700/20 z-20"
+  >
+    <a href="{% url 'home' %}" class="text-2xl font-semibold text-white pl-6"
+      >
+      <p>Artesis <span class="underline decoration-3 decoration-sky-300 decoration-wavy">Payment</span></p>
+    </a>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">
+        <button class="h-8 w-32 m-2">
+          <p class="text-white text-lg hover:text-md">logout</p>
+        </button>
+      </a>
+    {% endif %}
+
+    <div class=""></div>
+    <div class="absolute lg:hidden pr-6 right-0">
+      <button class="relative group z-10" id="hamburger" >
+        <div
+          class="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] bg-slate-700/70 shadow-md"
+        >
+          <div
+            class="flex flex-col justify-between w-[20px] h-[20px] origin-center overflow-hidden"
+          >
+            <div class="bg-white h-[2px] w-7"></div>
+            <div class="bg-white h-[2px] w-7"></div>
+            <div class="bg-white h-[2px] w-7"></div>
+
+            </div>
+          </div>
+        </div>
+      </button>
+
+    </div>
+    <div class="absolute right-[-400px] lg:right-[200px] top-0 lg:flex move-right" id="navItems">
+      <div
+        class="absolute flex flex-col p-4 pt-20 lg:pt-1 lg:flex-row h-screen w-96 bg-slate-100 right-0 top-0 lg:bg-transparent lg:h-auto lg:w-auto"
+      >
+        <a href="{% url 'items-list' %}">
+          <button
+            class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+          >
+            List Rumah
+          </button>
+        </a>
+        <a href="{% url 'login' %}">
+          <button
+            class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+          >
+            Rumahku
+          </button>
+        </a>
+        <a href="{% url 'about' %}">
+          <button
+            class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60  lg:hover:bg-white transition-all shadow-md"
+          >
+            About & FAQ
+          </button>
+        </a>
+        
+      </div>
+    </div>
+  </nav>
+{% endblock navbar %}

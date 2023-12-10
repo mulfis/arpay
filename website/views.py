@@ -8,7 +8,7 @@ from .models import User, PaymentHistory
 # Create your views here.
 
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 def items_list(request):
     #excluding me 'roneks' as admin because im count as user too

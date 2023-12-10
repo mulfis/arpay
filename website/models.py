@@ -28,17 +28,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=255, blank=True, default='')
 
     # personal data
-    pictures = models.CharField(max_length=10, blank=True, default='')
+    pictures = models.CharField(max_length=255, blank=True, default='')
     status_bayar = models.CharField(max_length=10, blank=True, default='')
     status_mesin = models.CharField(max_length=10, blank=True, default='')
     status_kependudukan = models.CharField(max_length=10, blank=True, default='')
 
-    #payment
-    pemakaian_kubik_bulanan = models.IntegerField( blank=True, null=True)
-    biaya_pemakaian_bulanan = models.IntegerField( blank=True, null=True)
-    biaya_total_bulanan = models.IntegerField( blank=True, null=True)
+    # payment status
+    bulan_tagihan = models.CharField(max_length=10, blank=True, default='')
+    tahun_tagihan = models.CharField(max_length=10, blank=True, default='')
+    pemakaian_kubik_bulanan = models.IntegerField(blank=True, null=True)
+    biaya_pemakaian_bulanan = models.IntegerField(blank=True, null=True)
+    biaya_total_bulanan = models.IntegerField(blank=True, null=True)
 
-     # permissions and staff status
+    # permissions and staff status
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
