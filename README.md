@@ -1,6 +1,6 @@
 ____ Arpay Update Log ____
 
-This work is made for my campus tesis
+This work is made for my campus task
 
 
 
