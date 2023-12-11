@@ -2,22 +2,22 @@
 
 This work is made for my campus work
 
-Test web: currently not avail
+Test link: currently not avail
 <hr>
 <br>
 
 <b>10/12/2023    - v0.3</b>
-- fixing some frontend
+- fix some frontend
 - implemented django more complex
-- updateng database model
-- about page now connected with django
+- updating database model
+- about-page now connected with backend
 - sidebar and navbar become separated files
 
 <b>09/12/2023    - v0.2</b>
 - fix some interface bug
 - add animations
 - add trial data for backend debug
-- add native screen/multi-platform
+- add native/multi-platform screen
 - implemented Django backend
 - implemented MySql database
 - add some backend (login, logout, lists, account, etc.)
