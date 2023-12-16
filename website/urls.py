@@ -7,6 +7,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout'),
-    path('accounts/<pk>/details', views.account_detail, name='account-detail')
-
+    path('accounts/<pk>/details', views.account_detail, name='account-detail'),
+    path('list-rumah/extends/', views.list, name='list')
 ]

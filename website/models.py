@@ -29,13 +29,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # personal data
     pictures = models.CharField(max_length=255, blank=True, default='')
-    status_bayar = models.CharField(max_length=10, blank=True, default='')
-    status_mesin = models.CharField(max_length=10, blank=True, default='')
-    status_kependudukan = models.CharField(max_length=10, blank=True, default='')
+    status_bayar = models.CharField(max_length=20, blank=True, default='')
+    status_mesin = models.CharField(max_length=20, blank=True, default='')
+    status_kependudukan = models.CharField(max_length=20, blank=True, default='')
 
     # payment status
-    bulan_tagihan = models.CharField(max_length=10, blank=True, default='')
-    tahun_tagihan = models.CharField(max_length=10, blank=True, default='')
+    bulan_tagihan = models.CharField(max_length=20, blank=True, default='')
+    tahun_tagihan = models.CharField(max_length=20, blank=True, default='')
     pemakaian_kubik_bulanan = models.IntegerField(blank=True, null=True)
     biaya_pemakaian_bulanan = models.IntegerField(blank=True, null=True)
     biaya_total_bulanan = models.IntegerField(blank=True, null=True)
@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class PaymentHistory(models.Model):
     tanggal_pembayaran = models.CharField(max_length=255, primary_key=True, unique=True)
     id = models.CharField(max_length=10)
-    bulan = models.CharField(max_length=10)
+    bulan = models.CharField(max_length=20)
     kubikasi_awal = models.IntegerField()
     kubikasi_akhir = models.IntegerField()
     kubikasi_total = models.IntegerField()
@@ -74,5 +74,5 @@ class PaymentHistory(models.Model):
     #payment_status
     tagihan_total = models.IntegerField()
     tagihan_dibayar = models.IntegerField()
-    status_pembayaran = models.CharField(max_length=10)
+    status_pembayaran = models.CharField(max_length=20)
     sisa_pembayaran = models.IntegerField()

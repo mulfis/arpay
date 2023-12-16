@@ -9,13 +9,42 @@ from .models import User, PaymentHistory
 
 def home(request):
     return render(request, 'home.html')
-
+    
 def items_list(request):
-    #excluding me 'roneks' as admin because im count as user too
-    forbidden_user = User.objects.get(id='roneks')
-
-    lists = User.objects.exclude(id=forbidden_user.id).order_by('id')
+    # excluding me 'roneks' as superuser because im count as user too
+    lists = User.objects.exclude(is_superuser=True).order_by('id')
     return render(request, 'items_list.html', {'lists': lists})
+
+def list(request):
+    # excluding me 'roneks' as superuser because im count as user too
+    lists = User.objects.exclude(is_superuser=True).order_by('id')
+
+    query = request.GET.get('q', '')
+    status_bayar = request.GET.get('status-bayar','')
+    status_mesin = request.GET.get('status-mesin','')
+    status_rumah = request.GET.get('status-rumah','')
+
+    if query:
+        lists = lists.filter(id__icontains=query)
+
+    if status_bayar == 'bayar-lunas':
+        lists = lists.filter(status_bayar='LUNAS')
+    elif status_bayar == 'bayar-belum-lunas':
+        lists = lists.filter(status_bayar='BELUM LUNAS')
+    elif status_bayar == 'bayar-nunggak':
+        lists = lists.filter(status_bayar='DITANGGUHKAN')
+
+    if status_mesin == 'mesin-bagus':
+        lists = lists.filter(status_mesin='BAIK')
+    elif status_mesin == 'mesin-rusak':
+        lists = lists.filter(status_mesin='RUSAK')
+
+    if status_rumah == 'rumah-diisi':
+        lists = lists.filter(status_kependudukan='DIISI')
+    elif status_rumah == 'rumah-kosong':
+        lists = lists.filter(status_kependudukan='KOSONG')
+
+    return render(request, 'list_partial.html', {'lists': lists})
 
 def about(request):
     return render(request, 'about.html')
@@ -43,7 +72,7 @@ def login(request):
 def account_detail(request, pk):
     logged_in_user_pk = request.user.pk
 
-    #check logged in user pk
+    # check logged in user pk
     if logged_in_user_pk == pk:
         user_account = get_object_or_404(User, pk=pk)
         payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')

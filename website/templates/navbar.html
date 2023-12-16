@@ -11,8 +11,8 @@
 
     {% if user.is_authenticated %}
       <a href="{% url 'logout' %}">
-        <button class="h-8 w-32 m-2">
-          <p class="text-white text-lg hover:text-md">logout</p>
+        <button class="h-8 w-24 m-2 rounded-lg hover:border-2 border-sky-600 hover:bg-white bg-white/60 transition-all shadow-md">
+          <p class="">logout</p>
         </button>
       </a>
     {% endif %}

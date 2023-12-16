@@ -33,12 +33,10 @@ html {
 }
 
 .payment-slide {
-  position: absolute;
   bottom: 25%;
 }
 
 .payment-slide.active {
-  position: absolute;
   bottom: 45%;
   transition: all 1s ease-in-out; 
 }
@@ -106,13 +104,12 @@ html {
 
 .barcode-animation {
   position: absolute;
-  display: hidden;
   bottom: 25%;
   opacity: 0;
 }
 
 .barcode-animation.active {
-  position: absolute;
+  position: relative;
   opacity: 1;
   bottom: 5%;
   transition: all 1s ease-in-out;

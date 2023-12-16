@@ -1,0 +1,72 @@
+{% load static %}
+
+<!-- Items Start -->
+{% for item in lists %}
+<div
+  class="bg-sky-900/5 backdrop-blur-sm w-full rounded-xl border-2 border-sky-400/80 shadow-md my-2"
+>
+  <div class="lg:flex text-center lg:text-left">
+    <span
+      class="p-2 lg:w-1/5 lg:m-auto lg:pl-8 text-3xl font-medium text-slate-500"
+    >
+      {{ item.id }}
+    </span>
+    <span class="p-2 lg:w-1/5 text-xl flex">
+      <img
+        class="m-auto w-full lg:m-0 md:w-80 lg:w-24 rounded-md "
+        src="{% static 'image/basic_question.jpg' %}"
+        alt=""
+        srcset=""
+      />
+    </span>
+    <p class="p-2 lg:w-1/5 lg:m-auto text-xl">
+      <span class="lg:hidden">Pembayaran: </span>
+      {% if item.status_bayar != '' %}
+        {% if item.status_bayar == 'LUNAS' %}
+          <span class="font-medium text-green-500"> {{ item.status_bayar }} </span>
+        {% elif item.status_bayar == 'BELUM LUNAS' %}
+          <span class="font-medium text-red-500"> {{ item.status_bayar }} </span>
+        {% elif item.status_bayar == 'DITANGGUHKAN' %}
+          <span class="font-medium text-orange-500"> {{ item.status_bayar }} </span>
+        {% endif %}
+      {% else %}
+        <span class="font-medium"> - </span>
+      {% endif %}
+    </p>
+    <p class="p-2 lg:w-1/5 lg:m-auto text-xl">
+      <span class="lg:hidden"> Mesin: </span>
+      {% if item.status_mesin != '' %}
+        {% if item.status_mesin == 'BAIK' %}
+          <span class="font-medium text-green-500"> {{ item.status_mesin }} </span>
+        {% elif item.status_mesin == 'RUSAK' %}
+          <span class="font-medium text-red-500"> {{ item.status_mesin }} </span>
+        {% endif %}
+      {% else %}
+        <span class="font-medium"> - </span>
+      {% endif %}
+    </p>
+    <p class="p-2 lg:w-1/5 lg:m-auto text-xl">
+      <span class="lg:hidden"> Status: </span>
+      {% if item.status_kependudukan != '' %}
+        {% if item.status_kependudukan == 'DIISI' %}
+          <span class="font-medium text-green-500"> {{ item.status_kependudukan }} </span>
+        {% elif item.status_kependudukan == 'KOSONG' %}
+          <span class="font-medium text-red-500"> {{ item.status_kependudukan }} </span>
+        {% endif %}
+      {% else %}
+        <span class="font-medium"> - </span>
+      {% endif %}
+    </p>
+    <!-- <div class="p-2 lg:w-1/6 lg:m-auto"> -->
+      <!-- <a href="{% url 'login' %}">
+        <button
+          class="w-32 h-10 bg-slate-100 rounded-lg hover:bg-white hover:border-2 border-sky-500 shadow-sm transition-all"
+        >
+          Selengkapnya
+        </button>
+      </a> -->
+    <!-- </div> -->
+  </div>
+</div>
+{% endfor %}
+<!-- items End -->
