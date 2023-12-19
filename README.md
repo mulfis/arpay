@@ -17,7 +17,7 @@ i'll implemented later:
 
 <br>
 
-need the databases of Jatihurip Permasih, nu-uh its pivate, just look at the models and make your own databases :D
+you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the models and make your own databases :D
 
 **but if you need that bad ASAP, please DM me
 
