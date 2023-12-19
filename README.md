@@ -17,6 +17,18 @@ i'll implemented later:
 
 <br>
 
+need the databases of Jatihurip Permasih, nu-uh its pivate, just look at the models and make your own databases :D
+
+**but if you need that bad ASAP, please DM me
+
+<br>
+
+<b>19/12/2023    - v0.5</b>
+- fix minor bug
+- update about page value
+- improve personal picture logic each house(items)
+- the other picture will add later(currently just no.49)
+
 <b>16/12/2023    - v0.4</b>
 - fix some bug
 - add manual payment model stepbystep (barcode disable for now)
