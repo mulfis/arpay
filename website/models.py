@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractBaseUser, UserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.utils import timezone
 
 # Create your models here.
@@ -28,7 +28,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=255, blank=True, default='')
 
     # personal data
-    pictures = models.CharField(max_length=255, blank=True, default='')
+    pictures = models.ImageField(upload_to='website/static/image/', blank=True, null=True)
     status_bayar = models.CharField(max_length=20, blank=True, default='')
     status_mesin = models.CharField(max_length=20, blank=True, default='')
     status_kependudukan = models.CharField(max_length=20, blank=True, default='')

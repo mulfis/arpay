@@ -1,3 +1,4 @@
 Django~=4.2.7
 google-api-python-client==1.4.1
 pymysql
+Pillow=10.1.0

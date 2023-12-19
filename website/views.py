@@ -20,9 +20,9 @@ def list(request):
     lists = User.objects.exclude(is_superuser=True).order_by('id')
 
     query = request.GET.get('q', '')
-    status_bayar = request.GET.get('status-bayar','')
-    status_mesin = request.GET.get('status-mesin','')
-    status_rumah = request.GET.get('status-rumah','')
+    status_bayar = request.GET.get('status-bayar', '')
+    status_mesin = request.GET.get('status-mesin', '')
+    status_rumah = request.GET.get('status-rumah', '')
 
     if query:
         lists = lists.filter(id__icontains=query)

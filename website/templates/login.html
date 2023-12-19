@@ -15,11 +15,9 @@
   <main>
     <div class="flex h-screen w-screen">
       <div>
-        <img src="{% static 'image/basic.jpg' %}" class="fixed w-full h-full bg-no-repeat bg-cover bg-center -z-20 contrast-50 saturate-50" alt="" srcset="">
+        <img src="{% static 'image/basic.jpg' %}" class="fixed w-full h-full bg-no-repeat bg-cover bg-center -z-20 contrast-50 saturate-50" alt="background image" srcset="">
       </div>
-      <div
-        class="flex m-auto w-96 h-[450px] backdrop-blur-sm bg-slate-500/30 rounded-xl border-4 border-sky-100/30 shadow-md"
-      >
+      <div class="flex m-auto w-96 h-[450px] backdrop-blur-sm bg-slate-500/30 rounded-xl border-4 border-sky-100/30 shadow-md">
         <div class="m-auto text-center">
           <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
@@ -28,8 +26,7 @@
             </div>
             <div class="p-1">
               <p class="text-left text-white pl-1">Nomor Rumah</p>
-              <input
-                class="w-52 h-8 pl-3 rounded-xl border-2 border-transparent shadow-md backdrop-blur-md backdrop-brightness-200 bg-white/10"
+              <input class="w-52 h-8 pl-3 rounded-xl border-2 border-transparent shadow-md backdrop-blur-md backdrop-brightness-200 bg-white/10"
                 type="text"
                 name="house_id"
                 id="house_id"
@@ -39,8 +36,7 @@
             </div>
             <div class="p-1">
               <p class="text-left text-white pl-1">Password</p>
-              <input
-                class="w-52 h-8 pl-3 rounded-xl border-2 border-transparent shadow-md backdrop-blur-md backdrop-brightness-200 bg-white/10"
+              <input class="w-52 h-8 pl-3 rounded-xl border-2 border-transparent shadow-md backdrop-blur-md backdrop-brightness-200 bg-white/10"
                 type="password"
                 name="house_pass"
                 id="house_pass"
@@ -49,16 +45,11 @@
               />
             </div>
             <div class="p-3 text-right">
-              <a href="{% url 'about' %}" class="text-sky-400 font-medium underline hover:text-sky-300"
-                >Lupa password?</a
-              >
+              <a href="{% url 'about' %}" class="text-sky-400 font-medium underline hover:text-sky-300">Lupa password?</a>
             </div>
             <div class="p-3">
               <a href="">
-                <button
-                  class="font-semibold w-36 h-10 rounded-xl shadow-md hover:border-2 border-white bg-slate-600 hover:bg-slate-500 text-white transition-all"
-                  type="submit"
-                >
+                <button class="font-semibold w-36 h-10 rounded-xl shadow-md hover:border-2 border-white bg-slate-600 hover:bg-slate-500 text-white transition-all" type="submit">
                   Masuk
                 </button>          
               </a>
