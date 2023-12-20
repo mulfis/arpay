@@ -6,14 +6,6 @@
       <p>Artesis <span class="underline decoration-3 decoration-sky-300 decoration-wavy">Payment</span></p>
     </a>
 
-    {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}">
-        <button class="h-8 w-24 m-2 rounded-lg hover:border-2 border-sky-600 hover:bg-white bg-white/60 transition-all shadow-md">
-          <p class="">logout</p>
-        </button>
-      </a>
-    {% endif %}
-
     <div class=""></div>
     <div class="absolute lg:hidden pr-6 right-0">
       <button class="relative group z-10" id="hamburger" >
@@ -29,6 +21,13 @@
     </div>
     <div class="absolute right-[-400px] lg:right-[200px] top-0 lg:flex move-right" id="navItems">
       <div class="absolute flex flex-col p-4 pt-20 lg:pt-1 lg:flex-row h-screen w-96 bg-slate-100 right-0 top-0 lg:bg-transparent lg:h-auto lg:w-auto">
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}">
+            <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60 lg:hover:bg-white transition-all shadow-md">
+              <p class="">Logout</p>
+            </button>
+          </a>
+        {% endif %}
         <a href="{% url 'items-list' %}">
           <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/60 lg:hover:bg-white transition-all shadow-md">
             List Rumah

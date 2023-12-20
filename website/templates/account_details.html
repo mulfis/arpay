@@ -25,9 +25,9 @@
     <div class="w-full h-screen">
       <div>
         {% if user_account.pictures %}
-          <img class="fixed w-full h-full bg-no-repeat bg-cover bg-center -z-20 contrast-50 saturate-50" src="{{ user_account.pictures.url }}" alt="background image" srcset="">
+          <img class="fixed w-full h-full object-cover object-center -z-20 contrast-50 saturate-50" src="{{ user_account.pictures.url }}" alt="background image" srcset="">
         {% else %}
-          <img class="fixed w-full h-full bg-no-repeat bg-cover bg-center -z-20 contrast-50 saturate-50" src="{% static 'image/basic_question.jpg' %}" alt="background image" srcset="">
+          <img class="fixed w-full h-full object-cover object-center -z-20 contrast-50 saturate-50" src="{% static 'image/basic_question.jpg' %}" alt="background image" srcset="">
         {% endif %}
       </div>
       <div class="flex flex-col m-auto fixed w-screen pt-52 lg:pt-40 text-center -z-10">
@@ -39,15 +39,41 @@
         <div class="flex m-auto w-full md:w-2/3 pt-20 px-2 md:px-0">
           <div class="m-auto px-1 md:px-3 py-2 w-auto md:w-40 rounded-xl bg-sky-800/30 backdrop-blur-sm backdrop-saturate-50">
             <p class="text-sm md:text-xl font-medium text-white">Status Bayar</p>
-            <p class="text-xl md:text=3xl font-bold text-green-400">{{ user_account.status_bayar }}</p>
+            {% if user_account.status_bayar != '' %}
+              {% if user_account.status_bayar == 'LUNAS' %}
+                <span class="text-xl md:text=3xl font-bold text-green-500"> {{ user_account.status_bayar }} </span>
+              {% elif user_account.status_bayar == 'BELUM LUNAS' %}
+                <span class="text-xl md:text=3xl font-bold text-red-500"> {{ user_account.status_bayar }} </span>
+              {% elif user_account.status_bayar == 'DITANGGUHKAN' %}
+                <span class="text-xl md:text=3xl font-bold text-orange-500"> {{ user_account.status_bayar }} </span>
+              {% endif %}
+            {% else %}
+              <span class="text-xl md:text=3xl font-bold text-white"> - </span>
+            {% endif %}
           </div>
           <div class="m-auto px-1 md:px-3 py-2 w-auto md:w-40 rounded-xl bg-sky-800/30 backdrop-blur-sm backdrop-saturate-50">
             <p class="text-sm md:text-xl font-medium text-white">Kondisi Mesin</p>
-            <p class="text-xl md:text=3xl font-bold text-red-400">{{ user_account.status_mesin }}</p>
+            {% if user_account.status_mesin != '' %}
+              {% if user_account.status_mesin == 'BAIK' %}
+                <span class="text-xl md:text=3xl font-bold text-green-500"> {{ user_account.status_mesin }} </span>
+              {% elif user_account.status_mesin == 'RUSAK' %}
+                <span class="text-xl md:text=3xl font-bold text-red-500"> {{ user_account.status_mesin }} </span>
+              {% endif %}
+            {% else %}
+              <span class="text-xl md:text=3xl font-bold text-white"> - </span>
+            {% endif %}
           </div>
           <div class="m-auto px-1 md:px-3 py-2 w-auto md:w-40 rounded-xl bg-sky-800/30 backdrop-blur-sm backdrop-saturate-50">
             <p class="text-sm md:text-xl font-medium text-white">Kependudukan</p>
-            <p class="text-xl md:text=3xl font-bold text-green-400">{{ user_account.status_kependudukan }}</p>
+            {% if user_account.status_kependudukan != '' %}
+              {% if user_account.status_kependudukan == 'DIISI' %}
+                <span class="text-xl md:text=3xl font-bold text-green-500"> {{ user_account.status_kependudukan }} </span>
+              {% elif user_account.status_kependudukan == 'KOSONG' %}
+                <span class="text-xl md:text=3xl font-bold text-red-500"> {{ user_account.status_kependudukan }} </span>
+              {% endif %}
+            {% else %}
+              <span class="text-xl md:text=3xl font-bold text-white"> - </span>
+            {% endif %}
           </div>
         </div>
         <div class="m-auto pt-24 lg:pt-16">
@@ -59,8 +85,8 @@
       </div>
     </div>
     <div class="flex w-full h-auto bg-sky-900/30 backdrop-blur-xl p-12">
-      <div class="m-auto">
-        <div class="payment-slide text-white" id="payment-slider">
+      <div class="flex flex-col m-auto">
+        <div class="m-auto payment-slide text-white" id="payment-slider">
           <div class="p-4 pl-2 ">
             <p class="text-xl md:text-2xl">Tagihan Anda Bulan ini:</p>
 
@@ -94,11 +120,11 @@
             </table>
           </div>
           <div class="flex my-4 w-full justify-evenly">
-            <button class="p-2 bg-sky-500 rounded-lg border-slate-700 text-white shadow-md hover:bg-sky-400 transition-colors" id="payment-now" onclick="barcodePayment()">
+            <button class="p-2 m-1 bg-sky-500 rounded-lg border-slate-700 text-white shadow-md hover:bg-sky-400 transition-colors" id="payment-now" onclick="barcodePayment()">
               Bayar Sekarang
             </button>
             <a href="{% url 'about' %}">
-              <button class="p-2 bg-sky-500 rounded-lg border-slate-700 text-white shadow-md hover:bg-sky-400 transition-all">
+              <button class="p-2 m-1 bg-sky-500 rounded-lg border-slate-700 text-white shadow-md hover:bg-sky-400 transition-all">
                 Pelajari lebih lanjut
               </button>
             </a>
@@ -109,7 +135,7 @@
             </p>
           </div>
         </div>
-        <div class="barcode-animation -z-10" id="barcode-payment">
+        <div class="m-auto barcode-animation -z-10" id="barcode-payment">
 
           <!-- FOR BARCODE LATER -->
           <!-- <div class="flex flex-col md:flex-row m-auto py-8 md:w-[500px]">
@@ -124,27 +150,27 @@
           </div> -->
 
           <!-- MANUAL PAYMENT -->
-          <div class="flex m-auto py-8">
-            <div class="m-auto">
+          <div class="flex m-auto md:py-8 py-4">
+            <div class="flex-row m-auto">
               <div class="flex m-auto pb-4">
                 <div class="m-auto">
                   <p class="text-white text-xl font-medium">Langkah-langkah pembayaran online</p>
                 </div>
               </div>
-              <div class="lg:flex m-auto">
-                <div class="flex m-4 p-4 h-auto w-72 bg-white border-4 border-sky-500 rounded-lg">
+              <div class="md:flex m-auto">
+                <div class="flex mb-2 lg:mb-4 lg:m-4 p-4 h-auto w-auto md:w-52 lg:w-72 bg-white border-4 border-sky-500 rounded-lg">
                   <div class="m-auto">
-                    <p>Bayar menggunakan dompet digital apapun ke akun DANA<br>0800-0000-0000<br><br>cek kembali nomor dan nomonal supaya tidak ada kesalahan<br><br>**biaya admin masing-masing dompet digital ditanggung sendiri</p>
+                    <p>Bayar menggunakan dompet digital apapun ke akun DANA<br>0877-4378-0960<br><br>cek kembali nomor dan nomonal supaya tidak ada kesalahan<br><br>**biaya admin masing-masing dompet digital ditanggung sendiri</p>
                   </div>
                 </div>
-                <div class="flex m-4 p-4 h-auto w-72 bg-white border-4 border-sky-500 rounded-lg">
+                <div class="flex mb-2 lg:mb-4 lg:m-4 p-4 h-auto w-auto md:w-52 lg:w-72 bg-white border-4 border-sky-500 rounded-lg">
                   <div class="m-auto">
                     <p class="">Kirim pesan dengan format<br>"(nomor rumah) - (nama pemilik rumah) - (nominal tagihan) - Pembayaran Air" di catatan transaksi<br><br> Contoh :<br><b>"D49 - Ruhdiana - 50000 - Pembayaran Air"</b></p>
                   </div>
                 </div>
-                <div class="flex m-4 p-4 h-auto w-72 bg-white border-4 border-sky-500 rounded-lg">
+                <div class="flex mb-2 lg:mb-4 lg:m-4 p-4 h-auto w-auto md:w-52 lg:w-72 bg-white border-4 border-sky-500 rounded-lg">
                   <div class="m-auto">
-                    <p>Silakan simpan bukti pembayaran, dan tunggu max 2x24 jam hari kerja (Senin - Sabtu)<br><br>Bila status di website belum berubah, silakan konfirmasi ulang melalui WhatsApp ke nomor berikut: 0800-0000-0000</p>
+                    <p>Silakan simpan bukti pembayaran, dan tunggu max 2x24 jam hari kerja (Senin - Sabtu)<br><br>Bila status di website belum berubah, silakan konfirmasi ulang melalui WhatsApp ke nomor berikut: 0851-5646-4016</p>
                   </div>
                 </div>
               </div>
@@ -156,8 +182,9 @@
     <div class="w-full h-auto pb-40 bg-slate-100">
       <div class="pl-4 md:pl-16 pt-28">
         <p class="text-xl md:text-3xl">Riwayat Pembayaran Bulan Sebelumnya</p>
+        <p class="text-md">Geser untuk memperjelas</p>
       </div>
-      <div class="flex pt-4 lg:justify-center overflow-scroll mx-4 bg-white">
+      <div class="flex mt-4 lg:justify-center overflow-scroll mx-4 bg-white">
         <table class="table border-2 border-slate-600">
           <tr class="text-center border-2 border-slate-600">
             <td class="px-8 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Bulan</p></td>
