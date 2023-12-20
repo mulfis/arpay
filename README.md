@@ -24,17 +24,17 @@ you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the
 <br>
 
 <b>19/12/2023    - v0.6</b>
-- fix minor bug
-- fix error css
+- fix minor interface bug
+- fix error css in smartphone
 - about page now fully answered
-
+<br>
 
 <b>19/12/2023    - v0.5</b>
 - fix minor bug
 - update about page value
 - improve personal picture logic each house(items)
 - the other picture will add later(currently just no.49)
-
+<br>
 
 <b>16/12/2023    - v0.4</b>
 - fix some bug
@@ -44,7 +44,7 @@ you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the
 - add search and sorting feature (its working now!)
 - data list and list page now became separated
 - admin now have better(my opinion) dashbord with JET admin
-
+<br>
 
 <b>10/12/2023    - v0.3</b>
 - fix some frontend
@@ -52,7 +52,7 @@ you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the
 - updating database model
 - about-page now connected with backend
 - sidebar and navbar become separated files
-
+<br>
 
 <b>09/12/2023    - v0.2</b>
 - fix some interface bug
@@ -62,12 +62,12 @@ you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the
 - implemented Django backend
 - implemented MySql database
 - add some backend (login, logout, lists, account, etc.)
-
+<br>
 
 <b>01/11/2023    - v0.1</b> 
 - creating interface and frontend
 - using tailwindcss as interface framework
-
+<br>
 
 <b>10/10/2023    - v0.0</b>
 - initial file created
