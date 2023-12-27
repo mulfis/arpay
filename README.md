@@ -2,7 +2,7 @@
 
 This work is made for my campus work
 
-Test link: https://monkfish-unique-vaguely.ngrok-free.app/
+Test link: https://arpay.vercel.app/
 
 used technology: HTML, Vanilla CSS, JavaScript, Python, Tailwind, Django Framework, MySQL, HTMX, JQuery
 
@@ -19,8 +19,16 @@ i'll implemented later:
 
 you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the models and make your own databases :D
 
-**but if you need that bad ASAP, please DM me
+**but if you need that bad, please let me know
 
+<br>
+
+<b>27/12/2023    - v0.7</b>
+- fix minor backend bug
+- global css added
+- encrypt method with AES added
+- decripting key method from hashing SHA-3 added
+- views test to check encrypt added
 <br>
 
 <b>19/12/2023    - v0.6</b>
