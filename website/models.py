@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.utils import timezone
 
+from .encryption import derive_key, encrypt_data, decrypt_data
 # Create your models here.
 
 class CustomUserManager(UserManager):
@@ -36,9 +37,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     # payment status
     bulan_tagihan = models.CharField(max_length=20, blank=True, default='')
     tahun_tagihan = models.CharField(max_length=20, blank=True, default='')
+    ## jangan tampilkan data penting secara mentah
     pemakaian_kubik_bulanan = models.IntegerField(blank=True, null=True)
     biaya_pemakaian_bulanan = models.IntegerField(blank=True, null=True)
     biaya_total_bulanan = models.IntegerField(blank=True, null=True)
+
+    # encrypted here
+    encrypted_pemakaian_kubik_bulanan = models.CharField(max_length=500, blank=True, null=True)
+    encrypted_biaya_pemakaian_bulanan = models.CharField(max_length=500, blank=True, null=True)
+    encrypted_biaya_total_bulanan = models.CharField(max_length=500, blank=True, null=True)
 
     # permissions and staff status
     is_active = models.BooleanField(default=True)
@@ -62,6 +69,81 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.id
+
+    def save(self, *args, **kwargs):
+        self.encrypt_pemakaian_kubik_bulanan()
+        print(f"Encrypted data: {self.encrypted_pemakaian_kubik_bulanan}")
+        self.encrypt_biaya_pemakaian_bulanan()
+        print(f"Encrypted data: {self.encrypted_biaya_pemakaian_bulanan}")
+        self.encrypt_biaya_total_bulanan()
+        print(f"Encrypted data: {self.encrypted_biaya_total_bulanan}")
+        super().save(*args, **kwargs)
+
+    # DATA PEMAKAIAN KUBIK BULANAN
+    def encrypt_pemakaian_kubik_bulanan(self):
+        # Check if the field is not already encrypted to avoid re-encryption
+        if self.pemakaian_kubik_bulanan is not None and self.encrypted_pemakaian_kubik_bulanan is None:
+            key = derive_key(self.password)
+            encrypted_data = encrypt_data(str(self.pemakaian_kubik_bulanan), key)
+            self.encrypted_pemakaian_kubik_bulanan = encrypted_data
+        elif self.pemakaian_kubik_bulanan is not None and self.encrypted_pemakaian_kubik_bulanan is not None:
+            key = derive_key(self.password)
+            encrypted_data = encrypt_data(str(self.pemakaian_kubik_bulanan), key)
+            self.encrypted_pemakaian_kubik_bulanan = encrypted_data
+
+    def get_decrypted_pemakaian_kubik_bulanan(self):
+        # Decrypt the data only if it's encrypted
+        if self.encrypted_pemakaian_kubik_bulanan is not None:
+            key = derive_key(self.password)
+            decrypted_data = decrypt_data(self.encrypted_pemakaian_kubik_bulanan, key)
+            return int(decrypted_data)
+        else:
+            # If not encrypted, return the original data
+            return self.pemakaian_kubik_bulanan
+    
+    # DATA BIAYA PEMAKAIAN BULANAN
+    def encrypt_biaya_pemakaian_bulanan(self):
+        # Check if the field is not already encrypted to avoid re-encryption
+        if self.biaya_pemakaian_bulanan is not None and self.encrypted_biaya_pemakaian_bulanan is None:
+            key = derive_key(self.password)
+            encrypted_data = encrypt_data(str(self.biaya_pemakaian_bulanan), key)
+            self.encrypted_biaya_pemakaian_bulanan = encrypted_data
+        elif self.biaya_pemakaian_bulanan is not None and self.encrypted_biaya_pemakaian_bulanan is not None:
+            key = derive_key(self.password)
+            encrypted_data = encrypt_data(str(self.biaya_pemakaian_bulanan), key)
+            self.encrypted_biaya_pemakaian_bulanan = encrypted_data
+
+    def get_decrypted_biaya_pemakaian_bulanan(self):
+        # Decrypt the data only if it's encrypted
+        if self.encrypted_biaya_pemakaian_bulanan is not None:
+            key = derive_key(self.password)
+            decrypted_data = decrypt_data(self.encrypted_biaya_pemakaian_bulanan, key)
+            return int(decrypted_data)
+        else:
+            # If not encrypted, return the original data
+            return self.pemakaian_kubik_bulanan
+
+    # DATA BIAYA TOTAL BULANAN
+    def encrypt_biaya_total_bulanan(self):
+        # Check if the field is not already encrypted to avoid re-encryption
+        if self.biaya_total_bulanan is not None and self.encrypted_biaya_total_bulanan is None:
+            key = derive_key(self.password)
+            encrypted_data = encrypt_data(str(self.biaya_total_bulanan), key)
+            self.encrypted_biaya_total_bulanan = encrypted_data
+        elif self.biaya_total_bulanan is not None and self.encrypted_biaya_total_bulanan is not None:
+            key = derive_key(self.password)
+            encrypted_data = encrypt_data(str(self.biaya_total_bulanan), key)
+            self.encrypted_biaya_total_bulanan = encrypted_data
+
+    def get_decrypted_biaya_total_bulanan(self):
+        # Decrypt the data only if it's encrypted
+        if self.encrypted_biaya_total_bulanan is not None:
+            key = derive_key(self.password)
+            decrypted_data = decrypt_data(self.encrypted_biaya_total_bulanan, key)
+            return int(decrypted_data)
+        else:
+            # If not encrypted, return the original data
+            return self.pemakaian_kubik_bulanan
 
 class PaymentHistory(models.Model):
     tanggal_pembayaran = models.CharField(max_length=255, primary_key=True, unique=True)

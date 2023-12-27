@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from .models import User, PaymentHistory
 
+from .models import User, PaymentHistory
+from .encryption import derive_key, encrypt_data, decrypt_data
 # Create your views here.
 
 def home(request):
@@ -75,11 +76,38 @@ def account_detail(request, pk):
     # check logged in user pk
     if logged_in_user_pk == pk:
         user_account = get_object_or_404(User, pk=pk)
+
+        # Decrypt the encrypted data
+        decrypted_pemakaian_kubik_bulanan = user_account.get_decrypted_pemakaian_kubik_bulanan()
+        decrypted_biaya_pemakaian_bulanan = user_account.get_decrypted_biaya_pemakaian_bulanan()
+        decrypted_biaya_total_bulanan = user_account.get_decrypted_biaya_total_bulanan()
+        # Kalau hacker mencoba backdoor dengan menghapus logged_in_user_pk atau menembus @login_required, maka kode dibawahnya akan hilang dan sama sekali tidak akan menjalankan get_decrypted, sedangkan kalau membobol langsung database maka hacker hanya akan mendapati encrypted_pemakaian sesuai yang ada di database berbentuk kode hash karena get_decrypted hanya ada di sini.
+
         payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
-        return render(request, 'account_details.html', {'user_account': user_account, 'payment_history': payment_history})
+        return render(request, 'account_details.html', {'user_account': user_account, 'payment_history': payment_history, 'decrypted_pemakaian_kubik_bulanan': decrypted_pemakaian_kubik_bulanan, 'decrypted_biaya_pemakaian_bulanan': decrypted_biaya_pemakaian_bulanan, 'decrypted_biaya_total_bulanan': decrypted_biaya_total_bulanan})
     else:
         # Raise a PermissionDenied exception if the user doesn't have permission
         raise PermissionDenied("You don't have permission to access this account detail.")
+
+# # TEST SCENARIO
+# @login_required    
+# def account_detail(request, pk):
+#     logged_in_user_pk = request.user.pk
+#     user_account = get_object_or_404(User, pk=pk)
+
+#     # Kalau hacker mencoba backdoor dengan menghapus logged_in_user_pk atau menembus @login_required, maka kode dibawahnya akan hilang dan sama sekali tidak akan menjalankan get_decrypted, sedangkan kalau membobol langsung database maka hacker hanya akan mendapati encrypted_pemakaian sesuai yang ada di database berbentuk kode hash karena get_decrypted hanya ada di sini.
+#     if logged_in_user_pk == pk:
+#         decrypted_pemakaian_kubik_bulanan = user_account.get_decrypted_pemakaian_kubik_bulanan()
+#         decrypted_biaya_pemakaian_bulanan = user_account.get_decrypted_biaya_pemakaian_bulanan()
+#         decrypted_biaya_total_bulanan = user_account.get_decrypted_biaya_total_bulanan()
+#     else:
+#         decrypted_pemakaian_kubik_bulanan = user_account.encrypted_pemakaian_kubik_bulanan
+#         decrypted_biaya_pemakaian_bulanan = user_account.encrypted_biaya_pemakaian_bulanan
+#         decrypted_biaya_total_bulanan = user_account.encrypted_biaya_total_bulanan
+
+#     payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
+#     return render(request, 'account_details.html', {'user_account': user_account, 'payment_history': payment_history, 'decrypted_pemakaian_kubik_bulanan': decrypted_pemakaian_kubik_bulanan, 'decrypted_biaya_pemakaian_bulanan': decrypted_biaya_pemakaian_bulanan, 'decrypted_biaya_total_bulanan': decrypted_biaya_total_bulanan})
+# # TEST SCENARIO ENDS
 
 @login_required
 def logout(request):

@@ -99,11 +99,11 @@
               <tr>
                 <td class="md:pr-8"><p>Biaya Pemakaian</p></td>
                 <td class="md:pr-4"><p>=</p></td>
-                <td class="md:pr-8"><span>{{ user_account.pemakaian_kubik_bulanan }}</span></td>
+                <td class="md:pr-8"><span>{{ decrypted_pemakaian_kubik_bulanan }}</span></td>
                 <td class="md:pr-8"><p>x</p></td>
                 <td class="md:pr-8"><p>Rp. 5500</p></td>
                 <td class="md:pr-4"><p>=</p></td>
-                <td class="md:pr-8"><span>Rp. {{ user_account.biaya_pemakaian_bulanan }}</span></td>
+                <td class="md:pr-8"><span>Rp. {{ decrypted_biaya_pemakaian_bulanan }}</span></td>
               </tr>
               <tr>
                 <td><p>Biaya Beban</p></td>
@@ -115,7 +115,7 @@
               <tr class="border-t-2 border-white">
                 <td colspan="5"><p>Total</p></td>
                 <td><p>=</p></td>
-                <td><span>Rp. {{ user_account.biaya_total_bulanan }}</span></td>
+                <td><span>Rp. {{ decrypted_biaya_total_bulanan }}</span></td>
               </tr>
             </table>
           </div>
@@ -182,7 +182,7 @@
     <div class="w-full h-auto pb-40 bg-slate-100">
       <div class="pl-4 md:pl-16 pt-28">
         <p class="text-xl md:text-3xl">Riwayat Pembayaran Bulan Sebelumnya</p>
-        <p class="text-md">Geser untuk memperjelas</p>
+        <p class="visible lg:invisible text-md">Geser untuk memperjelas</p>
       </div>
       <div class="flex mt-4 lg:justify-center overflow-scroll mx-4 bg-white">
         <table class="table border-2 border-slate-600">
