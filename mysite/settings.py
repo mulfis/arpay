@@ -84,29 +84,29 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'arpaydb',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'roneks',
+        'PASSWORD': 'crocodile123',
         'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
-        'TEST': {
-            'CHARSET': 'utf8mb4',
-            'COLLATION': 'utf8mb4_general_ci',
-        },
+        'PORT': '5432',
+        # 'OPTIONS': {
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        #     'charset': 'utf8mb4',
+        # },
+        # 'TEST': {
+        #     'CHARSET': 'utf8mb4',
+        #     'COLLATION': 'utf8mb4_general_ci',
+        # },
     }
 }
 
 # Use pymysql as the database backend
-try:
-    import pymysql
-    pymysql.install_as_MySQLdb()
-except ImportError:
-    pass
+# try:
+#     import pymysql
+#     pymysql.install_as_MySQLdb()
+# except ImportError:
+#     pass
 
 
 
