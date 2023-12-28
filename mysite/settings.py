@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
-ALLOWED_HOSTS = ["*.vercel.app", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = [".vercel.app", "127.0.0.1", "localhost"]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app']
 
