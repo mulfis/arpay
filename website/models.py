@@ -174,7 +174,7 @@ class PaymentHistory(models.Model):
     sisa_pembayaran = models.IntegerField()
 
 class AboutInformation(models.Model):
-    judul = models.CharField(max_length=20)
+    judul = models.CharField(max_length=20, blank=True, null=True)
     deskripsi = models.CharField(max_length=500, blank=True, null=True)
     pertanyaan = models.CharField(max_length=500, blank=True, null=True)
     jawaban = models.CharField(max_length=500, blank=True, null=True)
