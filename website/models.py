@@ -71,15 +71,28 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.id
 
     def save(self, *args, **kwargs):
+        self.hitung_pemakaian_bulanan()
+        self.hitung_total_bulanan()
         self.encrypt_pemakaian_kubik_bulanan()
-        print(f"Encrypted data: {self.encrypted_pemakaian_kubik_bulanan}")
+        # print(f"Encrypted data: {self.encrypted_pemakaian_kubik_bulanan}")
         self.encrypt_biaya_pemakaian_bulanan()
-        print(f"Encrypted data: {self.encrypted_biaya_pemakaian_bulanan}")
+        # print(f"Encrypted data: {self.encrypted_biaya_pemakaian_bulanan}")
         self.encrypt_biaya_total_bulanan()
-        print(f"Encrypted data: {self.encrypted_biaya_total_bulanan}")
+        # print(f"Encrypted data: {self.encrypted_biaya_total_bulanan}")
         super().save(*args, **kwargs)
 
     # DATA PEMAKAIAN KUBIK BULANAN
+    def hitung_pemakaian_bulanan(self):
+        if self.pemakaian_kubik_bulanan is not None:
+            self.biaya_pemakaian_bulanan = int(self.pemakaian_kubik_bulanan) * 5500
+
+    def hitung_total_bulanan(self):
+        if self.pemakaian_kubik_bulanan is not None:
+            if self.pemakaian_kubik_bulanan < 0 or self.pemakaian_kubik_bulanan > 15:
+                self.biaya_total_bulanan = self.biaya_pemakaian_bulanan
+            else:
+                self.biaya_total_bulanan = int(self.biaya_pemakaian_bulanan) + 20000
+
     def encrypt_pemakaian_kubik_bulanan(self):
         # Check if the field is not already encrypted to avoid re-encryption
         if self.pemakaian_kubik_bulanan is not None and self.encrypted_pemakaian_kubik_bulanan is None:
@@ -146,7 +159,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             return self.pemakaian_kubik_bulanan
 
 class PaymentHistory(models.Model):
-    tanggal_pembayaran = models.CharField(max_length=255, primary_key=True, unique=True)
+    waktu_pencatatan = models.DateTimeField(default=timezone.now, primary_key=True)
+    tanggal_pembayaran = models.CharField(max_length=50)
     id = models.CharField(max_length=10)
     bulan = models.CharField(max_length=20)
     kubikasi_awal = models.IntegerField()
@@ -158,3 +172,11 @@ class PaymentHistory(models.Model):
     tagihan_dibayar = models.IntegerField()
     status_pembayaran = models.CharField(max_length=20)
     sisa_pembayaran = models.IntegerField()
+
+class AboutInformation(models.Model):
+    judul = models.CharField(max_length=20, blank=True, null=True)
+    deskripsi = models.CharField(max_length=500, blank=True, null=True)
+    pertanyaan = models.CharField(max_length=500, blank=True, null=True)
+    jawaban = models.CharField(max_length=500, blank=True, null=True)
+    is_view = models.BooleanField(default=True)
+    date_created = models.DateTimeField(default=timezone.now)

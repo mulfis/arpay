@@ -1,0 +1,18 @@
+{% load static %}
+
+{% block footer %}
+  <footer class="flex w-full h-40 bg-slate-600">
+    <div class="m-auto">
+      <p class="text-white">Created by: <a href="https://mulfis.github.io" class="text-gray-100 font-bold ">@Luthfi</a></p>
+
+      <p class="text-white">Powered by <span class="font-bold text-emerald-200">Django</span> and <span class="font-bold text-sky-200">Tailwind</span></p>
+    </div>
+    <div class="m-auto text-white">
+      <p><a href="{% url 'home' %}" class="hover:text-slate-300">Beranda</a></p>
+      <p><a href="{% url 'items-list' %}" class="hover:text-slate-300">List Rumah</a></p>
+      <p><a href="{% url 'login' %}" class="hover:text-slate-300">Cek Rumahku</a></p>
+      <p><a href="{% url 'about' %}" class="hover:text-slate-300">About & FAQ</a></p>
+    </div>
+    <div class="m-auto"></div>
+  </footer>
+{% endblock footer %}

@@ -12,12 +12,12 @@ def home(request):
     return render(request, 'home.html')
     
 def items_list(request):
-    # excluding me 'roneks' as superuser because im count as user too
+    # excluding me as superuser because im count as user too
     lists = User.objects.exclude(is_superuser=True).order_by('id')
     return render(request, 'items_list.html', {'lists': lists})
 
 def list(request):
-    # excluding me 'roneks' as superuser because im count as user too
+    # excluding me as superuser because im count as user too
     lists = User.objects.exclude(is_superuser=True).order_by('id')
 
     query = request.GET.get('q', '')
@@ -89,7 +89,7 @@ def account_detail(request, pk):
         # Raise a PermissionDenied exception if the user doesn't have permission
         raise PermissionDenied("You don't have permission to access this account detail.")
 
-# # TEST SCENARIO
+# TEST SCENARIO
 # @login_required    
 # def account_detail(request, pk):
 #     logged_in_user_pk = request.user.pk
@@ -107,7 +107,7 @@ def account_detail(request, pk):
 
 #     payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
 #     return render(request, 'account_details.html', {'user_account': user_account, 'payment_history': payment_history, 'decrypted_pemakaian_kubik_bulanan': decrypted_pemakaian_kubik_bulanan, 'decrypted_biaya_pemakaian_bulanan': decrypted_biaya_pemakaian_bulanan, 'decrypted_biaya_total_bulanan': decrypted_biaya_total_bulanan})
-# # TEST SCENARIO ENDS
+# TEST SCENARIO ENDS
 
 @login_required
 def logout(request):

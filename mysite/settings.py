@@ -35,8 +35,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app']
 
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'jet.dashboard',
     'jet',
@@ -84,9 +84,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-
-# settings.py
 
 DATABASES = {
     'default': {
@@ -153,10 +150,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'website/static/'
 
 # STATIC_ROOT = BASE_DIR / 'static'
 
+# close staticfile_dirs if in deployment process
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 

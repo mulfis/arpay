@@ -5,7 +5,7 @@
 {% block body %}
 
   <!-- SIDE BUTTON (TO TOP BUTTON) -->
-  <a href="#" class="z-10 to-top bg-sky-400/80" id="toTop">
+  <a href="#" class="z-10 to-top bg-slate-400/80" id="toTop">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
     </svg>              
@@ -25,11 +25,11 @@
     <div class="flex flex-col">
       <div class="m-auto px-6 pt-20 md:px-20 lg:px-28 pb-6 ">
         <div>
-          <div class="bg-sky-600 p-4 rounded-md">
+          <div class="bg-slate-500 p-4 rounded-md">
             <p class="text-4xl w-full text-white font-semibold">About</p>
           </div>
-          <div>
-            <p class="p-6 text-lg text-justify bg-slate-100 rounded-b-xl">
+          <div class="p-6 pb-0 bg-slate-100 rounded-b-xl">
+            <p class="pb-6 text-lg text-justify">
               Website Artesis Permasih adalah website khusus untuk
               warga perumahan Jatihurip Permasih yang dibuat dalam rangka
               mempermudah penyajian informasi seputar sumber air artesis yang
@@ -38,7 +38,7 @@
               seputar transaksi keuangan supaya warga bisa melakukan transaksi
               secara online dengan mudah dan aman.
             </p>
-            <p class="p-6 pt-0 text-lg text-justify bg-slate-100 rounded-b-xl">
+            <p class="pb-6 text-lg text-justify">
               Website ini merupakan hasil project tugas akhir sehingga tidak
               menutup kemungkinan akan banyak terjadi kejanggalan baik dari
               segi operasi maupun sisi server. Maka dari itu akan lebih baik bila
@@ -46,31 +46,31 @@
               kesalahan yang terasa mengganggu atau terasa janggal dalam
               pembayaran air artesis secara online.
             </p>
-            <p class="p-6 pt-0 text-lg text-justify bg-slate-100 rounded-b-xl">
+            <p class="pb-6 text-lg text-justify">
               Adapun pembayaran yang direncanakan ke depannya akan menggunakan
               platform MIDTRANS untuk lebih memudahkancara pembayaran dan tidak
               lagi dilakukan secara manual.
             </p>
-            <p class="p-6 pt-0 text-lg text-justify bg-slate-100 rounded-b-xl">
+            <p class="pb-6 text-lg text-justify">
               Untuk pertanyaan yang tidak masuk dalam daftar, silakan untuk
               menanyakan secara langsung kepada pihak yang bersangkutan.
             </p>
           </div>
         </div>
       </div>
-      <div class="p-20 px-6 md:px-20 lg:px-28 pt-6">
+      <div class="pb-20 px-6 md:px-20 lg:px-28 pt-6">
         <div class="">
-          <div class="bg-sky-600 p-4 rounded-lg">
+          <div class="bg-slate-500 p-4 rounded-lg">
             <p class="text-4xl w-full text-white font-semibold">FAQ</p>
           </div>
-          <div class="px-6 py-4 text-lg">
-            <div class="bg-sky-600 p-2 rounded-md">
+          <div class="px-6 pt-2 pb-4 text-lg">
+            <div class="bg-slate-500 p-2 rounded-md">
               <p class="text-xl w-full text-white font-medium">
                 Umum
               </p>
             </div>
-            <div class="px-6 bg-slate-100 rounded-b-xl">
-              <div class="py-4">
+            <div class="px-6 pt-4 bg-slate-100 rounded-b-xl">
+              <div class="pb-4">
                 <p>Q: "Mengapa aplikasi ini dibuat?"</p>
                 <p>A: "Dalam rangka memudahkan pengecekan status tagihan air dan menyediakan pembayaran air melalui online secara resmi, maka dibuatlah website Ar-Pay ini."</p>
               </div>
@@ -116,13 +116,13 @@
               </div>
             </div>
 
-            <div class="bg-sky-600 p-2 rounded-md">
+            <div class="bg-slate-500 p-2 rounded-md">
               <p class="text-xl w-full text-white font-medium">
                 Seputar Pembayaran dan Transaksi
               </p>
             </div>
-            <div class="px-6 bg-slate-100 rounded-b-xl">
-              <div class="py-4">
+            <div class="px-6 pt-4 bg-slate-100 rounded-b-xl">
+              <div class="pb-4">
                 <p>Q: "Apakah pembayaran air dihitung secara flat atau tidak?"</p>
                 <p>A: "Tidak, pembayaran air dihitung dari pemakaian per kubiknya kemudian ditambah dengan beban sesuai kesepakatan warga."</p>
               </div>
@@ -148,13 +148,13 @@
               </div>
             </div>
 
-            <div class="bg-sky-600 p-2 rounded-md">
+            <div class="bg-slate-500 p-2 rounded-md">
               <p class="text-xl w-full text-white font-medium">
                 Seputar Website
               </p>
             </div>
-            <div class="px-6 bg-slate-100 rounded-b-xl">
-              <div class="py-4">
+            <div class="px-6 pt-4 bg-slate-100 rounded-b-xl">
+              <div class="pb-4">
                 <p>Q: "Kapan data di website akan berubah?"</p>
                 <p>A: "Data di website diusahakan akan selalu update tentang adanya pembayaran baru dan perbaikan data, maksimal akan memerlukan waktu 2 x 24 jam hari kerja, bila anda memerlukan data tersebut segera silakan petugas yang nantinya akan diteruskan kepada admin website."</p>
               </div>
@@ -182,18 +182,13 @@
     <!-- Content End -->
   </main>
 
-  <footer class="flex w-full h-40 bg-sky-600">
-    <div class="m-auto">
-      <p class="text-white">Created by: <a href="https://mulfis.github.io" class="text-gray-100 font-bold ">@Luthfi</a></p>
+  <!-- Footer Start -->
+  {% include 'footer.html' %}
 
-      <p class="text-white">Powered by <span class="font-bold text-emerald-200">Django</span> and <span class="font-bold text-sky-200">Tailwind</span></p>
-    </div>
-    <div class="m-auto text-white">
-      <p><a href="{% url 'home' %}">Beranda</a></p>
-      <p><a href="{% url 'items-list' %}">List Rumah</a></p>
-      <p><a href="{% url 'login' %}">My Profile</a></p>
-      <p><a href="{% url 'about' %}">About & FAQ</a></p>
-    </div>
-    <div class="m-auto"></div>
-  </footer>
+  {% block footer %}
+
+  {% endblock footer %}
+
+  <!-- Footer End -->
+
 {% endblock body %}

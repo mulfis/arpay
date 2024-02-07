@@ -36,8 +36,8 @@
           </a>
         </div>
         <div class="pt-4 md:pt-10">
-          <a href="{% url 'about' %}">
-            <button class="font-semibold w-48 h-12 rounded-xl shadow-md hover:border-2 border-white bg-slate-700 hover:bg-slate-500 text-white transition-all">About & FAQ</button>
+          <a href="{% url 'login' %}">
+            <button class="font-semibold w-48 h-12 rounded-xl shadow-md hover:border-2 border-white bg-slate-700 hover:bg-slate-500 text-white transition-all">Cek Rumahku</button>
           </a>
         </div>
         <div></div>
@@ -47,4 +47,12 @@
   </main>
   <!-- Main End -->
 
+  <!-- Footer Start -->
+  {% include 'footer.html' %}
+
+  {% block footer %}
+
+  {% endblock footer %}
+
+  <!-- Footer End -->
 {% endblock body %}

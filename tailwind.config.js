@@ -7,6 +7,7 @@ module.exports = {
     "../templates/*.html"],
   theme: {
     extend: {},
+    fontFamily: {},
   },
   plugins: [],
 };
