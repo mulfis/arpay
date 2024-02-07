@@ -19,11 +19,5 @@
     {
         "src": "/(.*)",
         "dest": "mysite/wsgi.py"
-    }],
-    "env": {
-        "DATABASE_URL": "postgres://default:Cyebvs4Xw2qz@ep-aged-sun-65220183-pooler.ap-southeast-1.postgres.vercel-storage.com/verceldb"
-    },
-    "hooks": {
-        "postdeploy": "python manage.py migrate"
-    }
+    }]
 }
