@@ -1,12 +1,14 @@
+import csv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 
-from .models import User, PaymentHistory
+from .models import User, PaymentHistory, AboutInformation
 from .encryption import derive_key, encrypt_data, decrypt_data
-# Create your views here.
+
 
 def home(request):
     return render(request, 'home.html')
@@ -48,7 +50,8 @@ def list(request):
     return render(request, 'list_partial.html', {'lists': lists})
 
 def about(request):
-    return render(request, 'about.html')
+    about_information = AboutInformation.objects.order_by('date_created')
+    return render(request, 'about.html', {'about_information': about_information})
 
 def login(request):
     if request.method == 'POST':
@@ -72,42 +75,111 @@ def login(request):
 @login_required    
 def account_detail(request, pk):
     logged_in_user_pk = request.user.pk
+    sha_pass = derive_key(request.user.password)
 
-    # check logged in user pk
-    if logged_in_user_pk == pk:
-        user_account = get_object_or_404(User, pk=pk)
+    # change pk to logged in user pk if system didnt in test
+    # if logged_in_user_pk == pk:
+    user_account = get_object_or_404(User, pk=pk)
+    key = derive_key(user_account.password)
 
-        # Decrypt the encrypted data
-        decrypted_pemakaian_kubik_bulanan = user_account.get_decrypted_pemakaian_kubik_bulanan()
-        decrypted_biaya_pemakaian_bulanan = user_account.get_decrypted_biaya_pemakaian_bulanan()
-        decrypted_biaya_total_bulanan = user_account.get_decrypted_biaya_total_bulanan()
+    decrypted_pemakaian_kubik_bulanan = user_account.get_decrypted_pemakaian_kubik_bulanan(key, sha_pass)
+    decrypted_biaya_pemakaian_bulanan = user_account.get_decrypted_biaya_pemakaian_bulanan(key, sha_pass)
+    decrypted_biaya_total_bulanan = user_account.get_decrypted_biaya_total_bulanan(key, sha_pass)
         # Kalau hacker mencoba backdoor dengan menghapus logged_in_user_pk atau menembus @login_required, maka kode dibawahnya akan hilang dan sama sekali tidak akan menjalankan get_decrypted, sedangkan kalau membobol langsung database maka hacker hanya akan mendapati encrypted_pemakaian sesuai yang ada di database berbentuk kode hash karena get_decrypted hanya ada di sini.
 
-        payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
-        return render(request, 'account_details.html', {'user_account': user_account, 'payment_history': payment_history, 'decrypted_pemakaian_kubik_bulanan': decrypted_pemakaian_kubik_bulanan, 'decrypted_biaya_pemakaian_bulanan': decrypted_biaya_pemakaian_bulanan, 'decrypted_biaya_total_bulanan': decrypted_biaya_total_bulanan})
+    payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
+
+    context = {
+            'user_account': user_account, 
+            'payment_history': payment_history, 
+            'decrypted_pemakaian_kubik_bulanan': decrypted_pemakaian_kubik_bulanan, 
+            'decrypted_biaya_pemakaian_bulanan': decrypted_biaya_pemakaian_bulanan, 
+            'decrypted_biaya_total_bulanan': decrypted_biaya_total_bulanan
+        }
+
+    return render(request, 'account_details.html', context)
+    # else:
+    #     raise PermissionDenied("You don't have permission to access this account detail.")
+    
+@login_required
+def download_csv(request):
+    if 'csv_download' in request.POST:
+        payment_history = PaymentHistory.objects.order_by('id')
+
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="paymenthistory_data.csv"'},
+        )
+
+        writer = csv.writer(response)
+        writer.writerow(['Nomor Rumah', 'Bulan', 'Tahun', 'Tanggal Pembayaran','Kubik Air Awal','Kubik Air Akhir','Kubik Air Total','Total Tagihan', 'Uang Dibayarkan', 'Status Pembayaran', 'Sisa Pembayaran'])
+
+        for list in payment_history:
+            writer.writerow([list.id, list.bulan, list.tahun, list.tanggal_pembayaran, list.kubikasi_awal, list.kubikasi_akhir, list.kubikasi_total, list.tagihan_total, list.tagihan_dibayar, list.status_pembayaran, list.sisa_pembayaran])
+        return response
     else:
-        # Raise a PermissionDenied exception if the user doesn't have permission
-        raise PermissionDenied("You don't have permission to access this account detail.")
+        pass
 
-# TEST SCENARIO
-# @login_required    
-# def account_detail(request, pk):
-#     logged_in_user_pk = request.user.pk
-#     user_account = get_object_or_404(User, pk=pk)
+@login_required
+def admin(request):
+    if request.user.is_superuser:
+        payment_history = PaymentHistory.objects.order_by('id')
+        user_account = request.user
 
-#     # Kalau hacker mencoba backdoor dengan menghapus logged_in_user_pk atau menembus @login_required, maka kode dibawahnya akan hilang dan sama sekali tidak akan menjalankan get_decrypted, sedangkan kalau membobol langsung database maka hacker hanya akan mendapati encrypted_pemakaian sesuai yang ada di database berbentuk kode hash karena get_decrypted hanya ada di sini.
-#     if logged_in_user_pk == pk:
-#         decrypted_pemakaian_kubik_bulanan = user_account.get_decrypted_pemakaian_kubik_bulanan()
-#         decrypted_biaya_pemakaian_bulanan = user_account.get_decrypted_biaya_pemakaian_bulanan()
-#         decrypted_biaya_total_bulanan = user_account.get_decrypted_biaya_total_bulanan()
-#     else:
-#         decrypted_pemakaian_kubik_bulanan = user_account.encrypted_pemakaian_kubik_bulanan
-#         decrypted_biaya_pemakaian_bulanan = user_account.encrypted_biaya_pemakaian_bulanan
-#         decrypted_biaya_total_bulanan = user_account.encrypted_biaya_total_bulanan
+        return render(request, 'admin.html', {'payment_history': payment_history, 'user_account': user_account})
+    else:
+        raise PermissionDenied("You don't have permission to access this page.")
 
-#     payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
-#     return render(request, 'account_details.html', {'user_account': user_account, 'payment_history': payment_history, 'decrypted_pemakaian_kubik_bulanan': decrypted_pemakaian_kubik_bulanan, 'decrypted_biaya_pemakaian_bulanan': decrypted_biaya_pemakaian_bulanan, 'decrypted_biaya_total_bulanan': decrypted_biaya_total_bulanan})
-# TEST SCENARIO ENDS
+@login_required
+def admin_list(request):
+    if request.user.is_superuser:
+        payment_history = PaymentHistory.objects.order_by('id')
+        
+        query = request.GET.get('q', '')
+        status_bayar = request.GET.get('status-bayar', '')
+        bulan = request.GET.get('bulan', '')
+        tahun = request.GET.get('tahun', '')
+
+        if query:
+            payment_history = payment_history.filter(id__icontains=query)
+        
+        if status_bayar == 'lunas':
+            payment_history = payment_history.filter(status_pembayaran='LUNAS')
+        elif status_bayar == 'belum-lunas':
+            payment_history = payment_history.filter(status_pembayaran='BELUM LUNAS')
+        elif status_bayar == 'ditangguhkan':
+            payment_history = payment_history.filter(status_pembayaran='DITANGGUHKAN')
+
+        if bulan == 'januari': payment_history = payment_history.filter(bulan='Januari')
+        elif bulan == 'februari': payment_history = payment_history.filter(bulan='Februari')
+        elif bulan == 'maret': payment_history = payment_history.filter(bulan='Maret')
+        elif bulan == 'april': payment_history = payment_history.filter(bulan='April')
+        elif bulan == 'mei': payment_history = payment_history.filter(bulan='Mei')
+        elif bulan == 'juni': payment_history = payment_history.filter(bulan='Juni')
+        elif bulan == 'juli': payment_history = payment_history.filter(bulan='Juli')
+        elif bulan == 'agustus': payment_history = payment_history.filter(bulan='Agustus')
+        elif bulan == 'september': payment_history = payment_history.filter(bulan='September')
+        elif bulan == 'oktober': payment_history = payment_history.filter(bulan='Oktober')
+        elif bulan == 'november': payment_history = payment_history.filter(bulan='November')
+        elif bulan == 'desember': payment_history = payment_history.filter(bulan='Desember')
+
+        if tahun == '2023':
+            payment_history = payment_history.filter(tahun='2023')
+        elif tahun == '2024':
+            payment_history = payment_history.filter(tahun='2024')
+
+        user_account = request.user
+
+        return render(request, 'admin_partial.html', {'payment_history': payment_history, 'user_account': user_account})
+    else:
+        raise PermissionDenied("You don't have permission to access this page.")
+
+@login_required
+def admin_account_detail(request, pk):
+    user = User.objects.get(id=pk)
+    data = PaymentHistory.objects.filter(id=pk).order_by('waktu_pencatatan')
+
+    return render(request, 'admin_account_details.html', {'user': user, 'data': data})
 
 @login_required
 def logout(request):

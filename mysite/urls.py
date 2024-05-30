@@ -22,7 +22,7 @@ from django.urls import include, path
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')), # Django JET admin URLS
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
-    path('admin/', admin.site.urls),
+    path('core/', admin.site.urls),
     path('', include('website.urls')),
 ]
 

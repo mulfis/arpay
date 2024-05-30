@@ -1,0 +1,558 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+  <!-- Navbar Start -->
+  {% include 'navbar.html' %}
+
+  {% block navbar %}
+
+  {% endblock navbar %}
+
+  <!-- Navbar End -->
+
+  <!-- Content Start -->
+  <main class="w-full p-4 md:p-16 pt-20">
+    <div class="flex justify-between w-full p-8">
+      <div class="my-auto pl-8">
+        <h1 class="text-5xl font-semibold">{{ user.id }}</h1>
+      </div>
+      <div class="my-auto">
+          <button data-modal-target="modal-ubah-gambar" data-modal-toggle="modal-ubah-gambar" type="button" class="m-auto w-32 bg-slate-500 p-1 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+            Ubah Gambar
+          </button>
+          <div id="modal-ubah-gambar" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                  <h3 class="text-lg font-semibold text-gray-900">
+                    Ubah Gambar Profile
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-ubah-gambar">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" method="post" action="{% url 'user-change-picture' user.pk %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="col-span-2">
+                    <label for="new-picture" class="block mb-2 text-sm font-medium text-gray-900">Ganti gambar baru</label>
+                    <img id="preview-image" src="{{ user.pictures.url }}" alt="" class="mb-2 w-full max-w-sm">
+                    <input type="file" name="new-picture" id="new-picture" class="mt-2" onchange="updatePreviewImage(this)">
+                    <span id="file-name" class="text-sm text-gray-500"></span>
+                  </div>
+                  <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Simpan Gambar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <button data-modal-target="modal-ubah-status" data-modal-toggle="modal-ubah-status" type="button" class="m-auto w-32 bg-slate-500 p-1 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+            Ubah Status
+          </button>
+          <div id="modal-ubah-status" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                  <h3 class="text-lg font-semibold text-gray-900">
+                    Ubah Status Akun
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-ubah-status>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" method="post" action="{% url 'user-change-status' user.pk %}">
+                  {% csrf_token %}
+                  <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2">
+                      <label for="status-mesin">Status Mesin</label>
+                      <select name="status-mesin" id="status-mesin">
+                        <option value="" {% if user.status_mesin == '' %} selected {% endif %}>--</option>
+                        <option value="BAIK" {% if user.status_mesin == 'BAIK' %} selected {% endif %}>Baik</option>
+                        <option value="RUSAK" {% if user.status_mesin == 'RUSAK' %} selected {% endif %}>Rusak</option>
+                      </select>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="status-kependudukan">Status Kependudukan</label>
+                      <select name="status-kependudukan" id="status-kependudukan">
+                        <option value="" {% if user.status_kependudukan == '' %} selected {% endif %}>--</option>
+                        <option value="DIISI" {% if user.status_kependudukan == 'DIISI' %} selected {% endif %}>Diisi</option>
+                        <option value="KOSONG" {% if user.status_kependudukan == 'KOSONG' %} selected {% endif %}>Kosong</option>
+                      </select>
+                    </div>        
+                  </div>
+                  <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                    Simpan Status Akun
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <button data-modal-target="modal-ubah-jabatan" data-modal-toggle="modal-ubah-jabatan" type="button" class="m-auto w-32 bg-slate-500 p-1 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+            Ubah Jabatan
+          </button>
+          <div id="modal-ubah-jabatan" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                  <h3 class="text-lg font-semibold text-gray-900">
+                    Ubah Jabatan Akun
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-ubah-jabatan">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" method="post" action="{% url 'user-change-jabatan' user.pk %}">
+                  {% csrf_token %}
+                  <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2">
+                      <label for="status-aktif" class="block mb-2 text-sm font-medium text-gray-900">Status Aktif</label>
+                      <select name="status-aktif" id="status-aktif">
+                        <option value="True" {% if user.is_active %} selected {% endif %}>True</option>
+                        <option value="False" {% if user.is_active is False %} selected {% endif %}>False</option>
+                      </select>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="status-superuser" class="block mb-2 text-sm font-medium text-gray-900">Status Superuser</label>
+                      <select name="status-superuser" id="status-superuser">
+                        <option value="True" {% if user.is_superuser %} selected {% endif %}>True</option>
+                        <option value="False" {% if user.is_superuser is False %} selected {% endif %}>False</option>
+                      </select>
+                    </div>        
+                  </div>
+                  <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                    Simpan Jabatan Akun
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        
+          <button data-modal-target="modal-ubah-password" data-modal-toggle="modal-ubah-password" type="button" class="m-auto w-32 bg-slate-500 p-1 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+            Ubah Password
+          </button>
+          <div id="modal-ubah-password" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                  <h3 class="text-lg font-semibold text-gray-900">
+                    Ubah Password Akun
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-ubah-password">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" method="post" action="{% url 'user-change-password' user.pk %}">
+                  {% csrf_token %}
+                  <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2">
+                      <label for="old_password" class="block mb-2 text-sm font-medium text-gray-900">Password Lama</label>
+                      <input type="password" name="old-password" id="old-password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new_password" class="block mb-2 text-sm font-medium text-gray-900">Password Baru</label>
+                      <input type="password" name="new-password" id="new-password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-password-validation" class="block mb-2 text-sm font-medium text-gray-900">Konfirmasi Password Baru</label>
+                      <input type="password" name="new-password-validation" id="new-password-validation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>       
+                  </div>
+                  <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                    Simpan Password Akun
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        
+
+      </div>
+    </div>
+    <div class="p-4">
+      <div class="flex px-6 w-full justify-between">
+        <div class="my-auto">
+          <p class="text-xl">Bulan ini</p>
+        </div>
+        <div class="my-auto">
+            <button data-modal-target="modal-ubah-data-bulan-ini" data-modal-toggle="modal-ubah-data-bulan-ini" type="button" class="m-auto w-40 bg-slate-500 p-1 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+              Ubah Data Bulan ini
+            </button>
+            <div id="modal-ubah-data-bulan-ini" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+              <div class="relative p-4 w-full max-w-md max-h-full"> 
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow">
+                  <!-- Modal header -->
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-lg font-semibold text-gray-900">
+                      Ubah Data Bulan Ini
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-ubah-data-bulan-ini">
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <span class="sr-only">Close modal</span>
+                    </button>
+                  </div>
+                  <!-- Modal body -->
+                  <form class="p-4 md:p-5" method="post" action="{% url 'user-change-data-bulan-ini' user.pk %}">
+                    {% csrf_token %}
+                    <div class="grid gap-4 mb-4 grid-cols-2">
+                      <div class="col-span-2">
+                        <label for="bulan-tagihan" class="block mb-2 text-sm font-medium text-gray-900">Bulan Tagihan</label>
+                        <input type="text" name="bulan-tagihan" id="bulan-tagihan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ user.bulan_tagihan }}">
+                      </div>
+                      <div class="col-span-2">
+                        <label for="tahun-tagihan" class="block mb-2 text-sm font-medium text-gray-900">Tahun Tagihan</label>
+                        <input type="text" name="tahun-tagihan" id="tahun-tagihan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ user.tahun_tagihan }}">
+                      </div>
+                      <div class="col-span-2">
+                        <label for="status-bayar" class="block mb-2 text-sm font-medium text-gray-900">Status Bayar</label>
+                        <select name="status-bayar" id="status-bayar">
+                          <option value="LUNAS" {% if user.status_bayar == 'LUNAS' %} selected {% endif %}>LUNAS</option>
+                          <option value="BELUM LUNAS" {% if user.status_bayar == 'BELUM LUNAS' %} selected {% endif %}>BELUM LUNAS</option>
+                          <option value="DITANGGUHKAN" {% if user.status_bayar == 'DITANGGUHKAN' %} selected {% endif %}>DITANGGUHKAN</option>
+                        </select>
+                      </div>
+                      <div class="col-span-2">
+                        <label for="pemakaian-kubik-bulanan" class="block mb-2 text-sm font-medium text-gray-900">Pemakaian Kubik Bulanan</label>
+                        <input type="number" name="pemakaian-kubik-bulanan" id="pemakaian-kubik-bulanan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ user.pemakaian_kubik_bulanan }}">
+                      </div>
+                    </div>
+                    <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                      <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                      Simpan Data Bulan Ini
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="flex mt-2 lg:justify-center overflow-scroll lg:overflow-auto mx-4 bg-white">
+        <table class="table border-2 border-slate-600">
+          <tr class="text-center border-2 border-slate-600">
+            <td class="px-10 border-2 border-slate-600 bg-slate-200"><p>Bulan Tagihan</p></td>
+            <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Tahun Tagihan</p></td>
+            <td class="px-10 border-2 border-slate-600 bg-slate-200"><p>Status Bayar</p></td>
+            <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Pemakaian Kubik Bulanan</p></td>
+            <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Biaya Pemakaian Bulanan</p></td>
+            <td class="px-5 border-2 border-slate-600 bg-slate-200"><p>Biaya Total Bulanan</p></td>
+          </tr>
+          <tr class="text-center border-2 border-slate-600">
+            <td class="border-2 border-slate-600"><span>{{ user.bulan_tagihan }}</span></td>
+            <td class="border-2 border-slate-600"><span>{{ user.tahun_tagihan }}</span></td>
+            <td class="border-2 border-slate-600"><span>{{ user.status_bayar }}</span></td>
+            <td class="border-2 border-slate-600"><span>{{ user.pemakaian_kubik_bulanan }}</span></td>
+            <td class="border-2 border-slate-600"><p>Rp. <span>{{ user.biaya_pemakaian_bulanan }}</span></p></td>
+            <td class="border-2 border-slate-600"><p>Rp. <span>{{ user.biaya_total_bulanan }}</span></p></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="p-4">
+      <div class="flex px-6 w-full justify-between">
+        <div class="my-auto">
+          <p class="text-xl">Bulan sebelumnya</p>
+        </div>
+        <div class="my-auto">
+          <button data-modal-target="modal-tambah-data-riwayat" data-modal-toggle="modal-tambah-data-riwayat" type="button" class="m-auto w-40 bg-slate-500 p-1 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+            + Tambah Riwayat
+          </button>
+          <div id="modal-tambah-data-riwayat" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full"> 
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                  <h3 class="text-lg font-semibold text-gray-900">
+                    Buat Data Riwayat Baru
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-tambah-data-riwayat">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" method="post" action="{% url 'user-add-data-riwayat' user.pk %}">
+                  {% csrf_token %}
+                  <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2">
+                      <label for="u-id" class="block mb-2 text-sm font-medium text-gray-900">Unique_ID (id.bulan_tahun)</label>
+                      <input type="text" name="u-id" id="u-id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required">
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-id" class="block mb-2 text-sm font-medium text-gray-900">ID</label>
+                      <input type="text" name="new-id" id="new-id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ user.pk }}">
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-bulan" class="block mb-2 text-sm font-medium text-gray-900">Bulan</label>
+                      <input type="text" name="new-bulan" id="new-bulan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-tahun" class="block mb-2 text-sm font-medium text-gray-900">Tahun</label>
+                      <input type="text" name="new-tahun" id="new-tahun" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-tanggal-pembayaran" class="block mb-2 text-sm font-medium text-gray-900">Tanggal Pembayaran (DD/MM/YYYY)</label>
+                      <input type="text" name="new-tanggal-pembayaran" id="new-tanggal-pembayaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-kubikasi-awal" class="block mb-2 text-sm font-medium text-gray-900">Kubikasi Awal</label>
+                      <input type="number" name="new-kubikasi-awal" id="new-kubikasi-awal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-kubikasi-akhir" class="block mb-2 text-sm font-medium text-gray-900">Kubikasi Akhir</label>
+                      <input type="number" name="new-kubikasi-akhir" id="new-kubikasi-akhir" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-kubikasi-total" class="block mb-2 text-sm font-medium text-gray-900">Kubikasi Total</label>
+                      <input type="number" name="new-kubikasi-total" id="new-kubikasi-total" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-tagihan-total" class="block mb-2 text-sm font-medium text-gray-900">Total Tagihan (Include Beban)</label>
+                      <input type="number" name="new-tagihan-total" id="new-tagihan-total" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-tagihan-dibayar" class="block mb-2 text-sm font-medium text-gray-900">Uang Dibayarkan</label>
+                      <input type="text" name="new-tagihan-dibayar" id="new-tagihan-dibayar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-status-pembayaran" class="block mb-2 text-sm font-medium text-gray-900">Status Pembayaran</label>
+                      <select name="new-status-pembayaran" id="new-status-pembayaran">
+                        <option value="LUNAS">LUNAS</option>
+                        <option value="BELUM LUNAS">BELUM LUNAS</option>
+                        <option value="DITANGGUHKAN">DITANGGUHKAN</option>
+                      </select>
+                    </div>
+                    <div class="col-span-2">
+                      <label for="new-sisa-pembayaran" class="block mb-2 text-sm font-medium text-gray-900">Sisa Pembayaran</label>
+                      <input type="number" name="new-sisa-pembayaran" id="new-sisa-pembayaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                    </div>
+                  </div>
+                  <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                    Tambahkan Riwayat Baru
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="flex mt-2 lg:justify-center overflow-scroll lg:overflow-auto mx-4 bg-white">
+          <table class="table border-2 border-slate-600">
+            <tr class="text-center border-2 border-slate-600">
+              <td class="px-5 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Bulan</p></td>
+              <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Tahun</p></td>
+              <td class="px-1 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Tanggal Pembayaran</p></td>
+              <td class="px-1 border-2 border-slate-600 bg-slate-200" colspan="3"><p>Kubik Air yang digunakan (/m<sup>3</sup>)</p></td>
+              <td class="px-1 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Total Tagihan</p></td>
+              <td class="px-1 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Uang dibayarkan</p></td>
+              <td class="px-1 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Status Pembayaran</p></td>
+              <td class="px-1 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Sisa Pembayaran</p></td>
+              <td class="px-9 border-2 border-slate-600 bg-slate-200" rowspan="2"></td>
+            </tr>
+            <tr class="border-2 border-slate-600 pb-2 text-center">
+              <td class="px-2 border-2 border-slate-600 bg-slate-200"><p>Awal</p></td>
+              <td class="px-2 border-2 border-slate-600 bg-slate-200"><p>Akhir</p></td>
+              <td class="px-2 border-2 border-slate-600 bg-slate-200"><p>Total</p></td>
+            </tr>
+            {% for list in data %}
+            <tr class="text-center border-2 border-slate-600">
+              <td class="border-2 border-slate-600"><span>{{ list.bulan }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ list.tahun }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ list.tanggal_pembayaran }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ list.kubikasi_awal }}</s></td>
+              <td class="border-2 border-slate-600"><span>{{ list.kubikasi_akhir }}</span></td>
+              <td class="border-2 border-slate-600"><span>{{ list.kubikasi_total }}</span></td>
+              <td class="border-2 border-slate-600"><p>Rp. <span>{{ list.tagihan_total }}</span></p></td>
+              <td class="border-2 border-slate-600"><p>Rp. <span>{{ list.tagihan_dibayar }}</span></p></td>
+              <td class="border-2 border-slate-600"><span>{{ list.status_pembayaran }}</span></td>
+              <td class="border-2 border-slate-600"><p>Rp. <span>{{ list.sisa_pembayaran }}</span></p></td>
+              <td class="border-2 border-slate-600">
+                <div class="flex">
+                  <div class="text-justify">
+                    <!-- Edit Button -->
+                      <button data-modal-target="modal-ubah-data-riwayat" data-modal-toggle="modal-ubah-data-riwayat" type="button" class="p-2 m-1 rounded-lg bg-amber-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                      </button>
+                      <div id="modal-ubah-data-riwayat" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative p-4 w-full max-w-md max-h-full"> 
+                          <!-- Modal content -->
+                          <div class="relative bg-white rounded-lg shadow">
+                            <!-- Modal header -->
+                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                              <h3 class="text-lg font-semibold text-gray-900">
+                                Edit Data {{ list.id }}, Bulan {{ list.bulan }} Tahun {{ list.tahun }}
+                              </h3>
+                              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="modal-ubah-data-riwayat">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                              </button>
+                            </div>
+                            <!-- Modal body -->
+                            <form class="p-4 md:p-5" method="post" action="{% url 'user-change-data-riwayat' list.id %}">
+                              {% csrf_token %}
+                              <div class="grid gap-4 mb-4 grid-cols-2">
+                                <div class="col-span-2">
+                                  <label for="u-id" class="block mb-2 text-sm font-medium text-gray-900">Unique_ID (id.bulan_tahun)</label>
+                                  <input type="text" name="u-id" id="u-id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.unique_id }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="id" class="block mb-2 text-sm font-medium text-gray-900">ID</label>
+                                  <input type="text" name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.id }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="bulan" class="block mb-2 text-sm font-medium text-gray-900">Bulan</label>
+                                  <input type="text" name="bulan" id="bulan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.bulan }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="tahun" class="block mb-2 text-sm font-medium text-gray-900">Tahun</label>
+                                  <input type="text" name="tahun" id="tahun" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.tahun }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="tanggal-pembayaran" class="block mb-2 text-sm font-medium text-gray-900">Tanggal Pembayaran (DD/MM/YYYY)</label>
+                                  <input type="text" name="tanggal-pembayaran" id="tanggal-pembayaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.tanggal_pembayaran }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="kubikasi-awal" class="block mb-2 text-sm font-medium text-gray-900">Kubikasi Awal</label>
+                                  <input type="number" name="kubikasi-awal" id="kubikasi-awal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.kubikasi_awal }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="kubikasi-akhir" class="block mb-2 text-sm font-medium text-gray-900">Kubikasi Akhir</label>
+                                  <input type="number" name="kubikasi-akhir" id="kubikasi-akhir" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.kubikasi_akhir }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="kubikasi-total" class="block mb-2 text-sm font-medium text-gray-900">Kubikasi Total</label>
+                                  <input type="number" name="kubikasi-total" id="kubikasi-total" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.kubikasi_total }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="tagihan-total" class="block mb-2 text-sm font-medium text-gray-900">Total Tagihan (Include Beban)</label>
+                                  <input type="number" name="tagihan-total" id="tagihan-total" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.tagihan_total }}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="tagihan-dibayar" class="block mb-2 text-sm font-medium text-gray-900">Uang Dibayarkan</label>
+                                  <input type="text" name="tagihan-dibayar" id="tagihan-dibayar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.tagihan_dibayar}}">
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="status-pembayaran" class="block mb-2 text-sm font-medium text-gray-900">Status Pembayaran</label>
+                                  <select name="status-pembayaran" id="status-pembayaran">
+                                    <option value="LUNAS" {% if list.status_pembayaran == 'LUNAS' %} selected {% endif %}>LUNAS</option>
+                                    <option value="BELUM LUNAS" {% if list.status_pembayaran == 'BELUM LUNAS' %} selected {% endif %}>BELUM LUNAS</option>
+                                    <option value="DITANGGUHKAN" {% if list.status_pembayaran == 'DITANGGUHKAN' %} selected {% endif %}>DITANGGUHKAN</option>
+                                  </select>
+                                </div>
+                                <div class="col-span-2">
+                                  <label for="sisa-pembayaran" class="block mb-2 text-sm font-medium text-gray-900">Sisa Pembayaran</label>
+                                  <input type="number" name="sisa-pembayaran" id="sisa-pembayaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="{{ list.sisa_pembayaran }}">
+                                </div>
+                              </div>
+                              <button type="submit" class="text-white inline-flex items-center bg-slate-500 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                                Perbaharui Data Riwayat
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="text-right">
+                    <!-- Delete Button -->
+                      <button data-modal-target="popup-modal-delete" data-modal-toggle="popup-modal-delete" type="button" class="p-2 m-1 ml-0 rounded-lg bg-red-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                          <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                      </button>
+                      <div id="popup-modal-delete" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative p-4 w-full max-w-md max-h-full">
+                          <div class="relative bg-white rounded-lg shadow">
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal-delete">
+                              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                              </svg>
+                              <span class="sr-only">Close modal</span>
+                            </button>
+                            <form method="post" action="{% url 'delete-history-user' list.pk %}">
+                              {% csrf_token %}
+                              <div class="p-4 md:p-5 text-center">
+                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                                <h3 class="mb-5 text-lg font-normal text-gray-500">Yakin ingin menghapus data ini?</h3>
+                                <button data-modal-hide="popup-modal-delete" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" value="yes-delete" name="history-delete" id="history-delete">
+                                  Ya, saya yakin
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function updatePreviewImage(input) {
+        var file = input.files[0];
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            document.getElementById('preview-image').src = e.target.result;
+        }
+        
+        reader.readAsDataURL(file);
+    }
+  </script>
+  <!-- Content End -->
+
+{% endblock body %}

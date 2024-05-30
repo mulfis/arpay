@@ -29,32 +29,13 @@
             <p class="text-4xl w-full text-white font-semibold">About</p>
           </div>
           <div class="p-6 pb-0 bg-slate-100 rounded-b-xl">
-            <p class="pb-6 text-lg text-justify">
-              Website Artesis Permasih adalah website khusus untuk
-              warga perumahan Jatihurip Permasih yang dibuat dalam rangka
-              mempermudah penyajian informasi seputar sumber air artesis yang
-              digunakan. Website ini dibuat dengan tujuan mempermudah
-              penyampaian informasi, pencatatan riwayat, dan pembagian informasi
-              seputar transaksi keuangan supaya warga bisa melakukan transaksi
-              secara online dengan mudah dan aman.
-            </p>
-            <p class="pb-6 text-lg text-justify">
-              Website ini merupakan hasil project tugas akhir sehingga tidak
-              menutup kemungkinan akan banyak terjadi kejanggalan baik dari
-              segi operasi maupun sisi server. Maka dari itu akan lebih baik bila
-              warga yang menggunakan website ini dapat segera melaporakan bila ada suatu
-              kesalahan yang terasa mengganggu atau terasa janggal dalam
-              pembayaran air artesis secara online.
-            </p>
-            <p class="pb-6 text-lg text-justify">
-              Adapun pembayaran yang direncanakan ke depannya akan menggunakan
-              platform MIDTRANS untuk lebih memudahkancara pembayaran dan tidak
-              lagi dilakukan secara manual.
-            </p>
-            <p class="pb-6 text-lg text-justify">
-              Untuk pertanyaan yang tidak masuk dalam daftar, silakan untuk
-              menanyakan secara langsung kepada pihak yang bersangkutan.
-            </p>
+            {% for item in about_information %}
+              {% if item.judul == 'about' and item.is_view %}
+                <p class="pb-6 text-lg text-justify">
+                  {{ item.deskripsi }}
+                </p>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -70,50 +51,14 @@
               </p>
             </div>
             <div class="px-6 pt-4 bg-slate-100 rounded-b-xl">
-              <div class="pb-4">
-                <p>Q: "Mengapa aplikasi ini dibuat?"</p>
-                <p>A: "Dalam rangka memudahkan pengecekan status tagihan air dan menyediakan pembayaran air melalui online secara resmi, maka dibuatlah website Ar-Pay ini."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Mengapa rumah saya tidak ada di list?"</p>
-                <p>A: "Mungkin karena sebelumnya anda belum pernah membayar atau baru pindah rumah maka anda belum diwajibkan membayar sebelum pemakaian satu bulan pertama."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Bagaimana cara membayar di aplikasi ini?"</p>
-                <p>A: "Masuk ke bagian <span class="font-semibold">RUMAHKU</span> pada bagian kanan atas, kemudian login dengan akun yang diberikan admin, di dalamnya akan diperlihatkan tagihan rumah anda pada bulan ini dan riwayat pembayaran anda pada bulan-bulan sebelumnya."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Bagaimana cara mendapatkan id dan password akun aplikasi ini?"</p>
-                <p>A: "ID merupakan nomor rumah anda, kemudian untuk mendapatkan password akun, silakan tanyakan pada pihak yang bersangkutan atau penanggung jawab, akun tidak bisa dibuat oleh user demi meminimalisir penumpukan data, bila ingin mengganti password maka hubungi admin website secara personal, password akun 'saat ini' tidak bisa diganti sendiri oleh anda demi menjaga keutuhan akun."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Apakah air pernah surut?"</p>
-                <p>A: "Dari pertama kali sumur dibuat hingga sekarang air belum pernah surut, adapun beberapa kendala sebelumnya berasal dari mesin yang membuat air tidak mengalir, normalnya masalah ini akan berlangsung paling lama selama sehari."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kenapa air sering mati saat tengah malam?"</p>
-                <p>A: "Dengan pertimbangan untuk merawat kesehatan mesin pemompa, maka sekitar jam 22.00 WIB mesin air akan dimatikan dan dinyalakan kembali pukul 04.00 WIB oleh petugas yang bersangkutan."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Apakah diterapkan sistem giliran?"</p>
-                <p>A: "Tidak, semua rumah selalu mendapatkan ketersediaan air selama air masih mengalir."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Berapa biaya pembayaran air?"</p>
-                <p>A: "Biaya utama berasal dari pemakaian yang diukur dari mesin meteran, harga dihitung Rp. 5500 setiap kubiknya, adapun biaya beban yang disepakati warga untuk tabungan mempersiapkan kemungkinan mesin rusak adalah sebesar Rp. 20000."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Bagaimana cara melaporkan kebocoran/kesalahan lainnya?"</p>
-                <p>A: "Bila merasa ada kejanggalan dalam pemakaian air, silakan hubungi petugas yang bersangkutan."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kenapa angka di meteran saya tidak bergerak/selalu bergerak?"</p>
-                <p>A: "Mungkin saja mesin anda rusak, dan itu bukan hal yang mustahil terjadi apalagi saat anda merupakan warga yang baru pindah, segera laporkan untuk kemudian ditindak lanjuti penggantian meteran air anda."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Bagaimana bila ada masalah pipa air yang bocor?"</p>
-                <p>A: "Bila anda yakin ada indikasi mesin pipa air yang bocor, segera laporkan ke pihak yang bersangkutan."</p>
-              </div>
+              {% for item in about_information %}
+                {% if item.judul == 'umum' and item.is_view %}
+                  <div class="pb-4">
+                    <p>Q: "{{ item.pertanyaan }}"</p>
+                    <p>A: "{{ item.jawaban }}"</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
             </div>
 
             <div class="bg-slate-500 p-2 rounded-md">
@@ -122,30 +67,14 @@
               </p>
             </div>
             <div class="px-6 pt-4 bg-slate-100 rounded-b-xl">
-              <div class="pb-4">
-                <p>Q: "Apakah pembayaran air dihitung secara flat atau tidak?"</p>
-                <p>A: "Tidak, pembayaran air dihitung dari pemakaian per kubiknya kemudian ditambah dengan beban sesuai kesepakatan warga."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Berapa harga air per meter kubik (m3)?"</p>
-                <p>A: "Rp 5500, bila ada perubahan harga maka pihak yang bersangkutan akan memberikan informasinya segera."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kenapa diadakan sistem beban? Apakah beban dikenakan seluruh warga?"</p>
-                <p>A: "Sistem beban dimaksudkan untuk membuat tabungan dari hal yang tidak terduga, seperti mesin rusak karena harus diganti, pipa yang bocor, dan masalah toren air akan diperbaiki menggunakan uang dari beban tersebut."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kenapa tagihan sangat mahal padahal saya tidak menggunakan air?"</p>
-                <p>A: "Ada kemungkinan kalau mesin air meteran anda rusak atau adanya kebocoran di pipa dalam rumah anda, segera tutup aliran air pada meteran dan laporkan pada pihak yang bersangkutan."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kapan saya harus mulai membayar air?"</p>
-                <p>A: "Tagihan air akan dikenakan sebulan setelah anda menempati rumah dan dihitung dari angka meteran yang sudah ada."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Bagaimana cara membayar secara offline?"</p>
-                <p>A: "Untuk melakukan pembayaran secara offline dan menanyakan informasi tentang Air Artesis secara langsung, silakan datang ke blok D49 selaku penanggung jawab mesin air saat ini."</p>
-              </div>
+              {% for item in about_information %}
+                {% if item.judul == 'transaksi' and item.is_view %}
+                  <div class="pb-4">
+                    <p>Q: "{{ item.pertanyaan }}"</p>
+                    <p>A: "{{ item.jawaban }}"</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
             </div>
 
             <div class="bg-slate-500 p-2 rounded-md">
@@ -154,26 +83,14 @@
               </p>
             </div>
             <div class="px-6 pt-4 bg-slate-100 rounded-b-xl">
-              <div class="pb-4">
-                <p>Q: "Kapan data di website akan berubah?"</p>
-                <p>A: "Data di website diusahakan akan selalu update tentang adanya pembayaran baru dan perbaikan data, maksimal akan memerlukan waktu 2 x 24 jam hari kerja, bila anda memerlukan data tersebut segera silakan petugas yang nantinya akan diteruskan kepada admin website."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Ke siapa saya harus melapor kesalahan/ketidaknyamanan penggunaan?"</p>
-                <p>A: "Anda bisa melapor ke petugas di blok D49 untuk melaporkan adanya ketidaknyamanan penggunaan website."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kenapa website sering error/tidak dapat diakses?"</p>
-                <p>A: "Website menggunakan bandwith yang rendah dan hosting seadanya karena tidak memiliki biaya perawatan dan pemeliharaan, maka harap bersabar dan mengerti."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Bagaimana melaporkan data/riwayat yang salah? Bagaimana cara merubah data selain pembayaran?"</p>
-                <p>A: "Laporkan kepada petugas yang nantinya akan diteruskan kepada admin website."</p>
-              </div>
-              <div class="pb-4">
-                <p>Q: "Kenapa website memiliki tampilan yang aneh/error tampilan?"</p>
-                <p>A: "Mungkin saja website tidak dapat mendeteksi ukuran dari perangkat anda sehingga tampilan tidak akan tersusun sebagaimana mestinnya, untuk penggunaan lebih lanjut silakan diskusikan dengan admin website untuk melakukan update website dan menyediakan tampilan website yang sesuai dengan kebutuhan anda."</p>
-              </div>
+              {% for item in about_information %}
+                {% if item.judul == 'website' and item.is_view %}
+                  <div class="pb-4">
+                    <p>Q: "{{ item.pertanyaan }}"</p>
+                    <p>A: "{{ item.jawaban }}"</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>

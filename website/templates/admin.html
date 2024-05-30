@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+  <!-- Navbar Start -->
+  {% include 'navbar.html' %}
+
+  {% block navbar %}
+
+  {% endblock navbar %}
+
+  <!-- Navbar End -->
+
+  <!-- Content Start -->
+  <main class="bg-slate-50 h-auto py-24">
+    <div class="w-full pl-4 md:pl-12 pb-10">
+      <p class="font-semibold text-5xl">Welcome, {{ user_account.id }}</p>
+    </div>
+    <div class="w-full h-auto">
+      <form hx-get="{% url 'admin-list' %}" hx-trigger="change, keyup" hx-target="#searchResultsAdmin">
+        <div class="flex flex-col lg:flex-row justify-between w-full px-2 md:px-10 pt-6">
+          <div class="my-auto p-2">
+            <p class="text-xl md:text-3xl">Riwayat Pembayaran Keseluruhan User</p>
+            <p class="text-md">Klik Nomor Rumah untuk Data lebih lanjut</p>
+          </div>
+          <div class="my-auto p-2">
+            <input hx-trigger="keyup" class="border-2 border-slate-400 rounded-md p-1" type="text" name="q" id="search" placeholder="Nomor Rumah">
+          </div>
+          <div class="my-auto p-2">
+            <select hx-trigger="change" class="border-2 border-slate-400 rounded-md p-1" name="status-bayar" id="status-bayar">
+              <option value="">Semua</option>
+              <option value="lunas">Lunas</option>
+              <option value="belum-lunas">Belum Lunas</option>
+              <option value="ditangguhkan">Ditangguhkan</option>
+            </select>
+          </div>
+          <div class="my-auto p-2">
+            <select hx-trigger="change" class="border-2 border-slate-400 rounded-md p-1" name="bulan" id="bulan">
+              <option value="">--</option>
+              <option value="januari">Januari</option>
+              <option value="februari">Februari</option>
+              <option value="maret">Maret</option>
+              <option value="april">April</option>
+              <option value="mei">Mei</option>
+              <option value="juni">Juni</option>
+              <option value="juli">Juli</option>
+              <option value="agustus">Agustus</option>
+              <option value="september">September</option>
+              <option value="oktober">Oktober</option>
+              <option value="november">November</option>
+              <option value="desember">Desember</option>
+            </select>
+          </div>
+          <div class="my-auto p-2">
+            <select hx-trigger="change" class="border-2 border-slate-400 rounded-md p-1" name="tahun" id="tahun">
+              <option value="">--</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+          <!-- <div class="my-auto p-2">
+            <a href="">
+              <button class="m-auto w-40 bg-slate-500 p-2 text-center rounded-lg hover:bg-slate-400 transition-all shadow-sm text-white">
+                + Tambah Riwayat
+              </button>
+            </a>
+          </div> -->
+        </div>
+      </form>
+      <form action="{% url 'download-csv' %}" method="post" class="text-right mr-12">
+        {% csrf_token %}
+        <button type="submit" name="csv_download" class="text-white font-medium bg-green-700 h-full text-md hover:bg-green-600 rounded-lg py-2 px-6">Download CSV</button>
+      </form>
+      <div class="flex mt-3 lg:justify-center overflow-scroll lg:overflow-auto mx-4 bg-white">
+        <table class="table border-2 border-slate-600" id="searchResultsAdmin">
+          <!-- Database History Start -->
+          {% include 'admin_partial.html' %}
+
+          {% block admin-partial %}
+
+          {% endblock admin-partial %}
+
+          <!-- Database End -->
+        </table>
+      </div>
+    </div>
+  </main>
+  <!-- Content End -->
+
+{% endblock body %}

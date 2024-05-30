@@ -1,0 +1,41 @@
+{% load static %}
+
+{% block admin-partial %}
+  <tr class="text-center border-2 border-slate-600">
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Nomor Rumah</p></td>
+    <td class="px-6 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Bulan</p></td>
+    <td class="px-5 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Tahun</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Tanggal Pembayaran</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" colspan="3"><p>Kubik Air yang digunakan (/m<sup>3</sup>)</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Total Tagihan</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Uang dibayarkan</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Status Pembayaran</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200" rowspan="2"><p>Sisa Pembayaran</p></td>
+  </tr>
+  <tr class="border-2 border-slate-600 pb-2 text-center">
+    <td class="px-2 border-2 border-slate-600 bg-slate-200"><p>Awal</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200"><p>Akhir</p></td>
+    <td class="px-2 border-2 border-slate-600 bg-slate-200"><p>Total</p></td>
+  </tr>
+  <!-- User Data Start -->
+  {% for item in payment_history %}
+    <tr class="text-center border-2 border-slate-600">
+      <td class="border-2 border-slate-600">
+        <a href="{% url 'admin-account-detail' item.id %}" class="font-semibold text-sky-600 hover:text-sky-400">
+          {{ item.id }}
+        </a>
+      </td>
+      <td class="border-2 border-slate-600"><span>{{ item.bulan }}</span></td>
+      <td class="border-2 border-slate-600"><span>{{ item.tahun }}</span></td>
+      <td class="border-2 border-slate-600"><span>{{ item.tanggal_pembayaran }}</span></td>
+      <td class="border-2 border-slate-600"><span>{{ item.kubikasi_awal }}</s></td>
+      <td class="border-2 border-slate-600"><span>{{ item.kubikasi_akhir }}</span></td>
+      <td class="border-2 border-slate-600"><span>{{ item.kubikasi_total }}</span></td>
+      <td class="border-2 border-slate-600"><p>Rp. <span>{{ item.tagihan_total }}</span></p></td>
+      <td class="border-2 border-slate-600"><p>Rp. <span>{{ item.tagihan_dibayar }}</span></p></td>
+      <td class="border-2 border-slate-600"><span>{{ item.status_pembayaran }}</span></td>
+      <td class="border-2 border-slate-600"><p>Rp. <span>{{ item.sisa_pembayaran }}</span></p></td>
+    </tr>
+  {% endfor %}
+  <!-- User Data End -->
+{% endblock admin-partial %}

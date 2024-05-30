@@ -6,7 +6,6 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import base64
 import hashlib
 
-# SHA-3 AREA
 def encrypt_data(data, key):
     if data is None or key is None:
         raise ValueError("Data and key cannot be None for encryption.")
@@ -55,4 +54,3 @@ def derive_key(password):
     key = kdf.derive(password.encode())
     print(f'key: {key}')
     return key
-# END OF AREA

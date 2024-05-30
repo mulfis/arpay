@@ -21,13 +21,6 @@
     </div>
     <div class="absolute right-[-400px] lg:right-[200px] top-0 lg:flex move-right" id="navItems">
       <div class="absolute flex flex-col p-4 pt-20 lg:pt-1 lg:flex-row h-screen w-96 bg-slate-100 right-0 top-0 lg:bg-transparent lg:h-auto lg:w-auto">
-        {% if user.is_authenticated %}
-          <a href="{% url 'logout' %}">
-            <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/90 lg:hover:bg-white transition-all shadow-md">
-              <p class="">Logout</p>
-            </button>
-          </a>
-        {% endif %}
         <a href="{% url 'items-list' %}">
           <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/90 lg:hover:bg-white transition-all shadow-md">
             List Rumah
@@ -35,14 +28,28 @@
         </a>
         <a href="{% url 'login' %}">
           <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/90 lg:hover:bg-white transition-all shadow-md">
-            Rumahku
+            Cek Rumahku
           </button>
         </a>
         <a href="{% url 'about' %}">
           <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/90 lg:hover:bg-white transition-all shadow-md">
             About & FAQ
           </button>
-        </a>       
+        </a>
+        {% if request.user.is_superuser %}
+          <a href="{% url 'admin' %}">
+            <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/90 lg:hover:bg-white transition-all shadow-md">
+              <p class="">Admin Page</p>
+            </button>
+          </a>
+        {% endif %}
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}">
+            <button class="h-8 w-32 m-2 rounded-lg hover:border-2 border-sky-600 bg-white hover:bg-slate-200 lg:bg-white/90 lg:hover:bg-white transition-all shadow-md">
+              <p class="">Logout</p>
+            </button>
+          </a>
+        {% endif %} 
       </div>
     </div>
   </nav>
