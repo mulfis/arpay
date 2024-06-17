@@ -160,11 +160,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             return self.biaya_total_bulanan
 
 class PaymentHistory(models.Model):
-    unique_id = models.CharField(max_length=20, primary_key=True)
+    unique_id = models.CharField(max_length=20, primary_key=True, default=0)
     tanggal_pembayaran = models.CharField(max_length=50)
     id = models.CharField(max_length=10)
     bulan = models.CharField(max_length=20)
-    tahun = models.IntegerField()
+    tahun = models.IntegerField(default=0)
     kubikasi_awal = models.IntegerField()
     kubikasi_akhir = models.IntegerField()
     kubikasi_total = models.IntegerField()
