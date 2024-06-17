@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-
 from .models import User, PaymentHistory, AboutInformation
 from .encryption import derive_key, encrypt_data, decrypt_data
 
@@ -76,17 +75,15 @@ def login(request):
 def account_detail(request, pk):
     logged_in_user_pk = request.user.pk
     sha_pass = derive_key(request.user.password)
-
     # change pk to logged in user pk if system didnt in test
     # if logged_in_user_pk == pk:
     user_account = get_object_or_404(User, pk=pk)
     key = derive_key(user_account.password)
-
+    
     decrypted_pemakaian_kubik_bulanan = user_account.get_decrypted_pemakaian_kubik_bulanan(key, sha_pass)
     decrypted_biaya_pemakaian_bulanan = user_account.get_decrypted_biaya_pemakaian_bulanan(key, sha_pass)
     decrypted_biaya_total_bulanan = user_account.get_decrypted_biaya_total_bulanan(key, sha_pass)
-        # Kalau hacker mencoba backdoor dengan menghapus logged_in_user_pk atau menembus @login_required, maka kode dibawahnya akan hilang dan sama sekali tidak akan menjalankan get_decrypted, sedangkan kalau membobol langsung database maka hacker hanya akan mendapati encrypted_pemakaian sesuai yang ada di database berbentuk kode hash karena get_decrypted hanya ada di sini.
-
+        
     payment_history = PaymentHistory.objects.filter(id=pk).order_by('tanggal_pembayaran')
 
     context = {

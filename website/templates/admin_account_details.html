@@ -44,7 +44,11 @@
                   {% csrf_token %}
                   <div class="col-span-2">
                     <label for="new-picture" class="block mb-2 text-sm font-medium text-gray-900">Ganti gambar baru</label>
-                    <img id="preview-image" src="{{ user.pictures.url }}" alt="" class="mb-2 w-full max-w-sm">
+                    {% if user.picture %}
+                      <img id="preview-image" src="{{ user.pictures.url }}" alt="" class="mb-2 w-full max-w-sm">
+                    {% else %}
+                      <img id="preview-image" src="{% static 'image/basic_question.jpg' %}" alt="" class="mb-2 w-full max-w-sm">
+                    {% endif %}
                     <input type="file" name="new-picture" id="new-picture" class="mt-2" onchange="updatePreviewImage(this)">
                     <span id="file-name" class="text-sm text-gray-500"></span>
                   </div>

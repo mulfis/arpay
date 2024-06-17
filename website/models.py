@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     biaya_pemakaian_bulanan = models.IntegerField(blank=True, null=True)
     biaya_total_bulanan = models.IntegerField(blank=True, null=True)
 
-    # encrypted here
+    # encrypted data saved here
     encrypted_pemakaian_kubik_bulanan = models.CharField(max_length=500, blank=True, null=True)
     encrypted_biaya_pemakaian_bulanan = models.CharField(max_length=500, blank=True, null=True)
     encrypted_biaya_total_bulanan = models.CharField(max_length=500, blank=True, null=True)
@@ -71,17 +71,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.id
 
     def save(self, *args, **kwargs):
-        key = derive_key(self.password)
-        self.hitung_pemakaian_bulanan()
-        self.hitung_total_bulanan()
-        self.encrypt_pemakaian_kubik_bulanan(key)
-        print(f"Encrypted data: {self.encrypted_pemakaian_kubik_bulanan}, Saved and Updated in Database")
-        self.encrypt_biaya_pemakaian_bulanan(key)
-        print(f"Encrypted data: {self.encrypted_biaya_pemakaian_bulanan}, Saved and Updated in Database")
-        self.encrypt_biaya_total_bulanan(key)
-        print(f"Encrypted data: {self.encrypted_biaya_total_bulanan}, Saved and Updated in Database")
+        if self.is_staff or self.is_superuser:
+            key = derive_key(self.password)
+            self.hitung_pemakaian_bulanan()
+            self.hitung_total_bulanan()
+            self.encrypt_pemakaian_kubik_bulanan(key)
+            print(f"Encrypted data: {self.encrypted_pemakaian_kubik_bulanan}, Saved and Updated in Database")
+            self.encrypt_biaya_pemakaian_bulanan(key)
+            print(f"Encrypted data: {self.encrypted_biaya_pemakaian_bulanan}, Saved and Updated in Database")
+            self.encrypt_biaya_total_bulanan(key)
+            print(f"Encrypted data: {self.encrypted_biaya_total_bulanan}, Saved and Updated in Database")
+        
         super().save(*args, **kwargs)
-
+        
     # DATA HARGA KUBIK PERBULAN
     def hitung_pemakaian_bulanan(self):
         if self.pemakaian_kubik_bulanan is not None:
@@ -97,31 +99,25 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # Encrypt Data
     def encrypt_pemakaian_kubik_bulanan(self, key):
-        # Check if the field is not already encrypted to avoid re-encryption
-        if self.pemakaian_kubik_bulanan is not None and self.encrypted_pemakaian_kubik_bulanan is None:
+        if self.pemakaian_kubik_bulanan is not None:
             encrypted_data = encrypt_data(str(self.pemakaian_kubik_bulanan), key)
             self.encrypted_pemakaian_kubik_bulanan = encrypted_data
-        elif self.pemakaian_kubik_bulanan is not None and self.encrypted_pemakaian_kubik_bulanan is not None:
-            encrypted_data = encrypt_data(str(self.pemakaian_kubik_bulanan), key)
-            self.encrypted_pemakaian_kubik_bulanan = encrypted_data
+        else:
+            pass
     
     def encrypt_biaya_pemakaian_bulanan(self, key):
-        # Check if the field is not already encrypted to avoid re-encryption
-        if self.biaya_pemakaian_bulanan is not None and self.encrypted_biaya_pemakaian_bulanan is None:
+        if self.biaya_pemakaian_bulanan is not None:
             encrypted_data = encrypt_data(str(self.biaya_pemakaian_bulanan), key)
             self.encrypted_biaya_pemakaian_bulanan = encrypted_data
-        elif self.biaya_pemakaian_bulanan is not None and self.encrypted_biaya_pemakaian_bulanan is not None:
-            encrypted_data = encrypt_data(str(self.biaya_pemakaian_bulanan), key)
-            self.encrypted_biaya_pemakaian_bulanan = encrypted_data
+        else:
+            pass
 
     def encrypt_biaya_total_bulanan(self, key):
-        # Check if the field is not already encrypted to avoid re-encryption
-        if self.biaya_total_bulanan is not None and self.encrypted_biaya_total_bulanan is None:
+        if self.biaya_total_bulanan is not None:
             encrypted_data = encrypt_data(str(self.biaya_total_bulanan), key)
             self.encrypted_biaya_total_bulanan = encrypted_data
-        elif self.biaya_total_bulanan is not None and self.encrypted_biaya_total_bulanan is not None:
-            encrypted_data = encrypt_data(str(self.biaya_total_bulanan), key)
-            self.encrypted_biaya_total_bulanan = encrypted_data
+        else:
+            pass
 
     # Decrypt Data
     def get_decrypted_pemakaian_kubik_bulanan(self, key, sha_pass):

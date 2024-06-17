@@ -1,4 +1,4 @@
-# you have crazy enough to try cryptography? ok then
+# you've crazy enough to try cryptography? ok then
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, padding
