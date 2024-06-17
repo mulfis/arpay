@@ -14,7 +14,6 @@ i'll implemented later:
 - Payment with MIDTRANS(?)
 - proper hosting
 - feedback form and lot of FAQ in about page
-- print button in admin page
 
 <br>
 
@@ -22,6 +21,12 @@ you need the databases of Jatihurip Permasih? nu-uh its pivate, just look at the
 
 **but if you need that bad, please let me know
 
+<br>
+
+<b>30/05/2024    - v0.9.1</b>
+- renew encrypt logic
+- fix minor problem
+- fix bug
 <br>
 
 <b>07/02/2024    - v0.8</b>
